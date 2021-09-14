@@ -778,7 +778,7 @@ SERVER=true
 
 ## ZeroMQ
 
-https://github.com/bitcoin/bitcoin/blob/master/doc/zmq.md
+[https://github.com/bitcoin/bitcoin/blob/master/doc/zmq.md](https://github.com/bitcoin/bitcoin/blob/master/doc/zmq.md)
 [ZeroMQ](https://zeromq.org/) is a lightweight wrapper around TCP connections, inter-process communication, and shared-memory, providing various message-oriented semantics such as publish/subscribe, request/reply, and push/pull.
 
 ```bash
