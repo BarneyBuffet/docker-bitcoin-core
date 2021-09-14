@@ -4,4 +4,6 @@ theme:
   name: material
 nav:
     - "Home": index.md
-    - "Environmental Variables": enviro.md
+    - "Why": why.md
+    - "Environmental Variables": environmental.md
+    - "Tor": tor.md

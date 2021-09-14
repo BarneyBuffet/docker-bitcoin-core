@@ -5,12 +5,19 @@ Authors: Barney Buffet
 Date:    September 12, 2021
 ---
 
-A docker image for running bitcoin-core daemon
+A docker image for running a bitcoin-core daemon.
 
-Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use. It is also the second Bitcoin client in the network's history. Learn more about Bitcoin Core on the Bitcoin Developer Reference docs.
+Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use. 
 
-Image Documentation: [https://BarneyBuffet.github.io/docker-bitcoin-core](https://BarneyBuffet.github.io/docker-bitcoin-core)
-Image Code: [https://github.com/BarneyBuffet/docker-bitcoin-core](https://github.com/BarneyBuffet/docker-bitcoin-core)
+Learn more about Bitcoin development at the [bitcoin dev guide](https://developer.bitcoin.org/devguide/).
+
+Learn more about Bitcoin Core development in the [docs folder](https://bitcoin.org/en/bitcoin-core/contribute/documentation) of the Github repository
+
+Learn more about this docker image at:
+
+* Docker Hub Repository: [https://hub.docker.com/repository/docker/barneybuffet/bitcoin-core](https://hub.docker.com/repository/docker/barneybuffet/bitcoin-core)
+* Documentation: [https://BarneyBuffet.github.io/docker-bitcoin-core](https://BarneyBuffet.github.io/docker-bitcoin-core)
+* Source Code Repository: [https://github.com/BarneyBuffet/docker-bitcoin-core](https://github.com/BarneyBuffet/docker-bitcoin-core)
 
 ## What does this image do?
 
@@ -28,6 +35,8 @@ The [dockerfile](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/D
 
 ## Using this image
 
+Given the current (Sep 2021) size of the blockchain (~450Gb) it is best if this image is run with persistent [volumes](https://docs.docker.com/engine/reference/commandline/volume_create/). For most people this will be docker volume binded to you local machine storage.
+
 To run a detached docker container with no env settings enter the below command.
 
 ```bash
@@ -38,18 +47,17 @@ docker run -d  --it \
   barneybuffet/bitcoin-core:latest:dev
 ```
 
-For more complicate docker-compose files have a look in [docker-compose folder](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/docker-compose/).
+For more complicated configurations check the [docker-compose folder](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/docker-compose/).
 
 ## Bitcoin core configuration
 
-Bitcoin core configuration is set in `bitcoin.conf`. This docker image keeps this configuration file at `/bitcoin/bitcoin.conf`. The folder can be mounted and file changes are persisted. Otherwise you can set you configuration options using docker environmental variables.
+This image persists the Bitcoin core configuration is set in `/bitcoin/bitcoin.conf`. The `/bitcoin' folder can be mounted and the file changed with a text editor, after which the changes are persisted with the next reset. Otherwise you can set you configuration options using docker environmental variables on the first run of the container or if `/bitcoin/bitcoin.conf` is deleted or `CONFIG_OVERWRITE=true`.
 
-A full list of configuration options is in the [documentation folder]()
-
+A full list of environmental variables to template the configuration can be found in[environmental documentation page](https://barneybuffet.github.io/docker-bitcoin-core/environmental/)
 
 ## Checking it is working
 
-To check the server is running open a terminal window within your running container and run the following command
+To check the server is running open a terminal window within your running container and run the following command:
 
 ```bash
 bitcoin-cli getblockchaininfo
@@ -59,7 +67,7 @@ When “bitcoind” is still starting, you may get an error message like “veri
 
 Among other infos, the “verificationprogress” is shown. Once this value reaches almost 1 (0.999…), the blockchain is up-to-date and fully validated.
 
-To confirm you are connected to the network, check active connections with the below command
+To confirm your connections to the network, check active connections with the below command:
 
 ```bash
 bitcoin-cli getconnectioncount 
