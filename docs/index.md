@@ -51,7 +51,7 @@ For more complicated configurations check the [docker-compose folder](https://gi
 
 ## Bitcoin core configuration
 
-This image persists the Bitcoin core configuration is set in `/bitcoin/bitcoin.conf`. The `/bitcoin' folder can be mounted and the file changed with a text editor, after which the changes are persisted with the next reset. Otherwise you can set you configuration options using docker environmental variables on the first run of the container or if `/bitcoin/bitcoin.conf` is deleted or `CONFIG_OVERWRITE=true`.
+This image persists the Bitcoin core configuration is set in `/bitcoin/bitcoin.conf`. The `/bitcoin` folder can be mounted and the file changed with a text editor, after which the changes are persisted with the next reset. Otherwise you can set you configuration options using docker environmental variables on the first run of the container or if `/bitcoin/bitcoin.conf` is deleted or `CONFIG_OVERWRITE=true`.
 
 A full list of environmental variables to template the configuration can be found in[environmental documentation page](https://barneybuffet.github.io/docker-bitcoin-core/environmental/)
 
