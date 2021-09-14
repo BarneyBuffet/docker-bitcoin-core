@@ -35,7 +35,7 @@ The [dockerfile](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/D
 
 ## Using this image
 
-Given the current (Sep 2021) size of the blockchain (~450Gb) it is best if this image is run with persistent [volumes](https://docs.docker.com/engine/reference/commandline/volume_create/). For most people this will be docker volume binded to you local machine storage.
+Given the current (Sep 2021) size of the blockchain (~450Gb) it is best if this image is run with persistent [volumes](https://docs.docker.com/engine/reference/commandline/volume_create/). For most people this will be docker volume that you bind to you local machine storage.
 
 To run a detached docker container with no env settings enter the below command.
 
