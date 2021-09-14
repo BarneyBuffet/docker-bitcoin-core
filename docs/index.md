@@ -73,7 +73,7 @@ To confirm your connections to the network, check active connections with the be
 bitcoin-cli getconnectioncount 
 ```
 
-With it, you can check your node on [https://bitnodes.earn.com](https://bitnodes.earn.com)
+Check your node on [https://bitnodes.earn.com](https://bitnodes.earn.com)
 
 #### References
 
