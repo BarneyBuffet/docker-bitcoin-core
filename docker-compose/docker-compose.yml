@@ -1,0 +1,39 @@
+version: '3.9'
+
+  bitcoin:
+
+    image: barneybuffet/bitcoin-core:latest
+    user: "10000:10001"
+    volumes:
+      - /local/path/to/tor:/tor
+      - /local/path/to/bitcoin-core:/bitcoin
+    restart: always
+    ports:
+      - "8332:8332"
+      - "8333:8333"
+      - "28332:28332"
+    environment:
+      SERVER: "true"
+      BLOCK_FILTER_INDEX: "true"
+      ASSUME_VALID: "false"
+      DNS: "false"
+      DNSSEED: "false"
+      DB_CACHE: "2000"
+      TXINDEX: "true"
+      BIND: "127.0.0.1:8334=onion"
+      RPCBIND: "127.0.0.1:8332"
+      RPCALLOWIP: "127.0.0.1,10.0.0.0/255.0.0.0,192.168.0.0/16"
+      RPCUSER: "barney"
+      RPCPASSWORD: "**password!!"
+      LISTEN: "true"
+      LISTENONION: "true"
+      ONION: 127.0.0.1:9050
+      ONLYNET: "onion"
+      PROXY: 127.0.0.1:9050
+      TORCONTROL: 127.0.0.1:9051
+      ADDNODE: "kpgvmscirrdqpekbqjsvw5teanhatztpp2gl6eee4zkowvwfxwenqaid.onion,bnx4povtqynvwnui5oqm5xcxqvat3j7yzgn6mqciuyszqawhuayvyaid.onion:8333,wyg7twmf7t3pfvfpdcfd64wvjj2pkccuui7ew34ovnqung5f623b4yyd.onion,glm52zywiqrcxuwswvgjsxr5pfeggil7uci4z5tbpvb4rjyu5hwjhtid.onion,xspiicyddsdmzxsffzw6z4f22wi2iwyyufkjcaj2qr7cznxymtft5nid.onion,nqb5q6d4nhp54ziahhm2oxopqwyyulg7nrqwrcmfvwhj7y7xasaeg7ad.onion,vp4qo7u74cpckygkfoeu4vle2yqmxh7zuxqvtkazp4nbvjnxl2s3e6id.onion,ew7x2hv76f7w7irfyektnbhd42eut27ttbfgggu7lbpxsyrlfvsujuqd.onion,qxkgr5u4rmwme5jticjuuqrecw5vfc5thcqdxvbffwbqgqkdin7s7vid.onion"
+      ZMQPUBRAWBLOCK: "tcp://127.0.0.1:28332"
+      ZMQPUBRAWTX: "tcp://127.0.0.1:28332"
+      DEBUG: "tor"
+    networks:
+      backend:

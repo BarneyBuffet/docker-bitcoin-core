@@ -1,4 +1,9 @@
-# Docker Bitcoin Core
+---
+Title:   Docker Bitcoin Core
+Summary: What this repository is all about
+Authors: Barney Buffet
+Date:    September 12, 2021
+---
 
 A docker image for running bitcoin-core daemon
 

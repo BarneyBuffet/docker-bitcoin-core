@@ -1,0 +1,7 @@
+site_name: Docker Bitcoin Core
+site_url: https://BarneyBuffet.github.io/docker-bitcoin-core/
+theme:
+  name: material
+nav:
+    - "Home": index.md
+    - "Environmental Variables": enviro.md
