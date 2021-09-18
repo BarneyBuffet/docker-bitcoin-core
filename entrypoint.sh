@@ -111,8 +111,8 @@ template_config(){
     sed -i "/#reindex=.*/c\reindex=${_flag}" $BITCOIN_CONFIG_FILE
   fi
 
-  if [[ -n "${REINDEX_CHAINSTATE}" ]]; then
-    if $REINDEX_CHAINSTATE; then _flag=1 ; else _flag=0; fi
+  if [[ -n "${REINDEX_CHAIN_STATE}" ]]; then
+    if $REINDEX_CHAIN_STATE; then _flag=1 ; else _flag=0; fi
     sed -i "/#reindex-chainstate=.*/c\reindex-chainstate=${_flag}" $BITCOIN_CONFIG_FILE
   fi
 

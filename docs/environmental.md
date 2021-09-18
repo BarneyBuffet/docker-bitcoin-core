@@ -197,7 +197,7 @@ REINDEX=true
 Rebuild chain state from the currently indexed blocks. When in pruning mode or if blocks on disk might be corrupted, use full -reindex instead.
 
 ```bash
-REINDEX_CHAINSTATE=true
+REINDEX_CHAIN_STATE=true
 ```
 
 ---
