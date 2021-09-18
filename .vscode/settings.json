@@ -4,9 +4,11 @@
         "bitcoind",
         "getblockchaininfo",
         "getconnectioncount",
+        "noninteractive",
         "nonroot",
         "ruimarinho",
         "Stackexchange",
+        "TARGETARCH",
         "verificationprogress"
     ]
 }

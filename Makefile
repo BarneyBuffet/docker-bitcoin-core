@@ -4,10 +4,11 @@ UBUNTU_VER=21.04
 login:
 	docker login
 
-list-builders:
+list:
 	docker buildx ls
 
-init-builder:
+init:
+	docker buildx rm builder
 	docker buildx create --name builder
 	docker buildx use builder
 	docker buildx inspect builder --bootstrap

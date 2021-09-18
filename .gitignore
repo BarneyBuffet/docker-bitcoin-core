@@ -3,3 +3,4 @@
 /bitcoin_node
 
 .DS_Store
+.env
