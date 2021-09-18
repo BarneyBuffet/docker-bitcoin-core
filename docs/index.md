@@ -2,12 +2,12 @@
 Title:   Docker Bitcoin Core
 Summary: What this repository is all about
 Authors: Barney Buffet
-Date:    September 12, 2021
+Date:    September 18, 2021
 ---
 
-A docker image for running a bitcoin-core daemon.
+A multi-arch docker image for running a bitcoin-core daemon.
 
-Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use. 
+Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use.
 
 Learn more about Bitcoin development at the [bitcoin dev guide](https://developer.bitcoin.org/devguide/).
 
@@ -21,17 +21,19 @@ Learn more about this docker image at:
 
 ## What does this image do?
 
-This runs a Ubuntu server for the bitcoin-core daemon. The image does not include a wallet or the gui.
+This runs a Ubuntu server for the bitcoin-core daemon with wallet. The image does not include the gui.
 
 The [dockerfile](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/Dockerfile) for this image does the following:
 
 1. Install package dependencies
 2. Downloads the source code for the referenced version
 3. Check the source code download against the signed pgp keys
-4. Extracts the source code, configures and compiles the code
-5. Set's up nonroot user for running the daemon
-6. If bitcoin.conf file does not exists it will copy one across and template it out based on env sets
-7. Start up bitcoind
+4. Extracts the source code,
+5. Compiles Berkeley database
+6. Configures and compiles bitcoin core code
+7. Set up nonroot user for running the daemon
+8. If bitcoin.conf file does not exists it will copy one across and template it out based on env sets
+9. Start up bitcoind
 
 ## Using this image
 
@@ -42,8 +44,7 @@ To run a detached docker container with no env settings enter the below command.
 ```bash
 docker run -d  --it \
   --name bitcoin-core \
-  -v /local/path/to/tor:/tor \
-  -v /local/path/to/bitcoin-core:/bitcoin \
+  -v /local/path/to/bitcoin:/bitcoin \
   barneybuffet/bitcoin-core:latest:dev
 ```
 
@@ -51,9 +52,9 @@ For more complicated configurations check the [docker-compose folder](https://gi
 
 ## Bitcoin core configuration
 
-This image persists the Bitcoin core configuration is set in `/bitcoin/bitcoin.conf`. The `/bitcoin` folder can be mounted and the file changed with a text editor, after which the changes are persisted with the next reset. Otherwise you can set you configuration options using docker environmental variables on the first run of the container or if `/bitcoin/bitcoin.conf` is deleted or `CONFIG_OVERWRITE=true`.
+This image persists the Bitcoin core configuration the `/bitcoin/bitcoin.conf` file. The `/bitcoin` folder can be mounted `-v /local/path/to/bitcoin:/bitcoin` and the file changed with a text editor, after which the changes are persisted with the next reset of the container. Otherwise you can set you configuration options using docker environmental variables on the __first run__ of the container or if `/bitcoin/bitcoin.conf` is deleted or the env variable `CONFIG_OVERWRITE=true` set.
 
-A full list of environmental variables to template the configuration can be found in[environmental documentation page](https://barneybuffet.github.io/docker-bitcoin-core/environmental/)
+For a full list of environmental variables used to template the configuration can be found in[environmental documentation page](https://barneybuffet.github.io/docker-bitcoin-core/environmental/)
 
 ## Checking it is working
 
@@ -75,7 +76,7 @@ bitcoin-cli getconnectioncount
 
 Check your node on [https://bitnodes.earn.com](https://bitnodes.earn.com)
 
-#### References
+### References
 
 * [BitcoinCore](https://bitcoin.org/en/bitcoin-core/)
 * [Bitcoin Core Source Code](https://github.com/bitcoin/bitcoin)

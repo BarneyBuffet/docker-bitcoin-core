@@ -295,7 +295,6 @@ template_config(){
   fi
 
   if [[ -n "${WHITE_BIND}" ]]; then
-    #sed -i "/#whitebind=.*/c\whitebind=${WHITE_BIND}" $BITCOIN_CONFIG_FILE
     ## Convert string into an array
     list=(${WHITE_BIND//,/ })
 
@@ -316,7 +315,7 @@ template_config(){
   fi
 
   if [[ -n "${DEBUG}" ]]; then
-    ## Convert string to array comma seperated
+    ## Convert string to array comma separated
     categories=(${DEBUG//,/ })
 
     ## Parse through categories

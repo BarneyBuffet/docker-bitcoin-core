@@ -234,10 +234,10 @@ ENV CONFIG_OVERWRITE="false" \
 LABEL maintainer="Barney Buffet <BarneyBuffet@tutanota.com>"
 LABEL name="Bitcoin core (daemon)"
 LABEL version=${BTC_CORE_VER}
-LABEL description="A docker image for bitcoin core daemon"
-LABEL license="GNU"
+LABEL description="A docker image for a bitcoin core daemon"
+LABEL license="MIT"
 LABEL url="https://bitcoincore.org/"
-LABEL vcs-url="https://github.com/BarneyBuffet"  
+LABEL vcs-url="https://BarneyBuffet.github.io/docker-bitcoin-core/"
 
 USER ${USER}:${GROUP}
 WORKDIR ${DATA_DIR}

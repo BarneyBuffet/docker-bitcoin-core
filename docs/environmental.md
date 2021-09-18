@@ -2,10 +2,28 @@
 Title:   Docker Bitcoin Core - Environmental Options
 Summary: What this repository is all about
 Authors: Barney Buffet
-Date:    September 12, 2021
+Date:    September 18, 2021
 ---
 
-Below is a list of Docker environmental options that get templated into a config file.
+Below is a list of Docker environmental variables that cn be used to template `/bitcoin/bitcoin.conf`.
+
+The docker image creates a `/bitcoin/bitcoin.conf.lock` after templating. If the lock file is found on container start templating will be skipped. Alternatively if the lock file is found but `CONFIG_OVERWRITE=true` is set, then the `bitcoin.conf` will be copied over and templated`
+
+---
+
+Overwrite config based on environmental variables set
+
+```bash
+CONFIG_OVERWRITE=false
+```
+
+---
+
+Log `bitcoin.conf` on container start
+
+```bash
+LOG_CONFIG=false
+```
 
 ---
 
