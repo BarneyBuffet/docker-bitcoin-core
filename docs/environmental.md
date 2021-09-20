@@ -92,6 +92,14 @@ BLOCKS_ONLY=false
 
 ---
 
+Maintain coinstats index used by the gettxoutsetinfo RPC (default: 0)
+
+```bash
+COIN_STATS_INDEX=false
+```
+
+---
+
 Specify path to read-only configuration file. Relative paths will be prefixed by datadir location. (default: bitcoin.conf)
 
 ```bash
@@ -104,6 +112,14 @@ Run in the background as a daemon and accept commands
 
 ```bash
 DAEMON=true
+```
+
+---
+
+Wait for initialization to be finished before exiting. This implies -daemon (default: 0)
+
+```bash
+DAEMON_WAIT=false
 ```
 
 ---
@@ -236,7 +252,7 @@ STARTUP_NOTIFY=<cmd>
 
 ---
 
-Create new files with system default permissions, iP
+Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)
 
 ```bash
 SYS_PERMS=1
@@ -281,7 +297,7 @@ BAN_TIME=86400
 Bind to given address and always listen on it (default: 0.0.0.0). Use [host]:port notation for IPv6. Append =onion to tag any incoming connections to that address and port as incoming Tor connections (default: 127.0.0.1:8334=onion, testnet: 127.0.0.1:18334=onion, signet: 127.0.0.1:38334=onion, regtest: 127.0.0.1:18445=onion)
 
 ```bash
-BIND=0.0.0.0
+BIND=0.0.0.0,10.0.0.1
 ```
 
 ---
@@ -289,7 +305,7 @@ BIND=0.0.0.0
 Connect only to the specified node; -noconnect disables automatic connections (the rules for this peer are the same as for -addnode). This option can be specified multiple times to connect to multiple nodes.
 
 ```bash
-CONNECT=<ip>
+CONNECT=<ip>,<ip>
 ```
 
 ---
@@ -313,7 +329,7 @@ DNS=true
 Query for peer addresses via DNS lookup, if low on addresses (default: true unless -connect used)
 
 ```bash
-dnDNS_SEEDsseed=true
+DNS_SEED=true
 ```
 
 ---
@@ -326,10 +342,34 @@ EXTERNAL_IP=<ip>
 
 ---
 
+Allow fixed seeds if DNS seeds don't provide peers (default: 1)
+
+```bash
+FIXED_SEEDS=true
+```
+
+---
+
 Always query for peer addresses via DNS lookup (default: false)
 
 ```bash
 FORCE_DNS_SEED=false
+```
+
+---
+
+If set and -i2psam is also set then incoming I2P connections are accepted via the SAM proxy. If this is not set but -i2psam is set then only outgoing connections will be made to the I2P network. Ignored if -i2psam is not set. Listening for incoming I2P connections is done through the SAM proxy, not by binding to a local address and port (default: 1)
+
+```bash
+I2P_ACCEPT_INCOMING=true
+```
+
+---
+
+I2P SAM proxy to reach I2P peers and accept I2P connections (default: none)
+
+```bash
+i2psam=<ip:port>,<ip:port>,<ip:port>
 ```
 
 ---
@@ -342,10 +382,10 @@ LISTEN=false
 
 ---
 
-Automatically create Tor onion service (default: false)
+Automatically create Tor onion service (default: true)
 
 ```bash
-LISTEN_ONION=false
+LISTEN_ONION=true
 ```
 
 ---
@@ -515,6 +555,235 @@ Add permission flags to the peers connecting from the given IP address (e.g. 1.2
 ```bash
 WHITE_LIST=<[permissions@]IP address or network>
 ```
+---
+
+## Wallet options:
+
+What type of addresses to use ("legacy", "p2sh-segwit", or "bech32", default: "bech32")
+
+```bash
+ADDRESS_TYPE=bech32
+```
+
+Group outputs by address, selecting many (possibly all) or none, instead of selecting on a per-output basis. Privacy is improved as addresses are mostly swept with fewer transactions and outputs are aggregated in clean change addresses. It may result in higher fees due to less optimal coin selection caused by this added limitation and possibly a larger-than-necessary number of inputs being used. Always enabled for wallets with "avoid_reuse" enabled, otherwise default: 0.
+
+```bash
+avoid_partial_spends=false
+```
+
+---
+
+What type of change to use ("legacy", "p2sh-segwit", or "bech32"). Default is same as -addresstype, except when -addresstype=p2sh-segwit a native segwit output is used when sending to a native segwit address)
+
+```bash
+CHANGE_TYPE=<addresstype>
+```
+
+---
+
+Do not load the wallet and disable wallet RPC calls
+
+```bash
+DISABLE_WALLET=0
+```
+       
+The fee rate (in BTC/kvB) that indicates your tolerance for discarding change by adding it to the fee (default: 0.0001). Note: An output is discarded if it is dust at this rate, but we will always discard up to the dust relay fee and a discard fee above that is limited by the fee estimate for the longest target.
+
+```bash
+DISCARD_FEE=<amt>
+```
+
+A fee rate (in BTC/kvB) that will be used when fee estimation has insufficient data. 0 to entirely disable the fallbackfee feature. (default: 0.00)
+
+```bash
+FALLBACK_FEE=<amt>
+```
+
+Set key pool size to <n> (default: 1000). Warning: Smaller sizes may increase the risk of losing funds when restoring from an old backup, if none of the addresses in the original keypool have been used.
+
+```bash
+KEY_POOL=<n>
+```
+
+Spend up to this amount in additional (absolute) fees (in BTC) if it allows the use of partial spend avoidance (default: 0.00)
+
+```bash
+MAX_APS_FEE=<n>
+```
+
+---
+
+Fee rates (in BTC/kvB) smaller than this are considered zero fee for transaction creation (default: 0.00001)
+
+```bash
+MIN_TX_FEE=<amt>
+```
+
+---
+
+Maximum total fees (in BTC) to use in a single wallet transaction; setting this too low may abort large transactions (default: 0.10)
+
+```bash
+MAX_TX_FEE=<amt>
+```
+
+---
+
+Fee rate (in BTC/kvB) to add to transactions you send (default: 0.00)
+
+```bash
+PAY_TX_FEE=<amt>
+```
+
+---
+       
+Rescan the block chain for missing wallet transactions on startup
+
+```bash
+RESCAN=false
+```
+
+---
+
+External signing tool, see doc/external-signer.md
+
+```bash
+SIGNER=<cmd>
+```
+
+---
+    
+Spend unconfirmed change when sending transactions (default: 1)
+
+```bash
+SPEND_ZERO_CONF_CHANGE=true
+```
+
+---
+       
+If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: 6)
+
+```bash
+TX_CONFIRM_TARGET=<n>
+```
+
+---
+
+Specify wallet path to load at startup. Can be used multiple times to load multiple wallets. Path is to a directory containing wallet data and log files. If the path is not absolute, it is interpreted relative to <walletdir>. This only loads existing wallets and does not create new ones. For backwards compatibility this also accepts names of existing top-level data files in <walletdir>.
+
+```bash
+WALLET=<path>
+```
+
+---
+
+Make the wallet broadcast transactions (default: 1)
+
+```bash
+WALLET_BROADCAST=true
+```
+
+---
+       
+Specify directory to hold wallets (default: <datadir>/wallets if it exists, otherwise <datadir>)
+
+```bash
+WALLET_DIR=<dir>
+```
+
+Execute command when a wallet transaction changes. %s in cmd is replaced by TxID, %w is replaced by wallet name, %b is replaced by the hash of the block including the transaction (set to 'unconfirmed' if the transaction is not included) and %h is replaced by the block height (-1 if not included). %w is not currently implemented on windows. On systems where %w is supported, it should NOT be quoted because this would break shell escaping used to invoke the command.
+
+```bash
+WALLET_NOTIFY=<cmd>
+```
+
+---
+
+Send transactions with full-RBF opt-in enabled (RPC only, default: 0)
+
+```bash
+WALLET_RBF=false
+```
+
+---    
+
+## ZeroMQ notification options:
+
+Enable publish hash block in <address>
+
+```bash
+ZMQ_PUB_HASH_BLOCK=<address>
+```
+
+---   
+    
+Set publish hash block outbound message high water mark (default: 1000)
+
+```bash
+ZMQ_PUB_HASH_BLOCK_HWM=<n>
+```
+
+---
+       
+Enable publish hash transaction in <address>
+
+```bash
+ZMQ_PUB_HASH_TX=<address>
+```
+
+---
+       
+Set publish hash transaction outbound message high water mark (default: 1000)
+
+```bash
+ZMQ_PUB_HASH_TX_HWM=<n>
+```
+
+---   
+    
+Enable publish raw block in <address>
+
+```bash
+ZMQ_PUB_RAW_BLOCK=<address>
+```
+
+---
+       
+Set publish raw block outbound message high water mark (default: 1000)
+
+```bash
+ZMQ_PUB_RAW_BLOCK_HWM=<n>
+```
+
+---
+       
+Enable publish raw transaction in <address>
+
+```bash
+ZMQ_PUB_RAW_TX=<address>
+```
+
+---
+       
+Set publish raw transaction outbound message high water mark (default: 1000)
+
+```bash
+ZMQ_PUB_RAW_TX_HWM=<n>
+```
+
+---
+
+Enable publish hash block and tx sequence in <address>
+
+```bash
+ZMQ_PUB_SEQUENCE=<address>
+```
+
+Set publish hash sequence message high water mark (default: 1000)
+
+```bash
+ZMQ_PUB_SEQUENCE_HWM=<n>
+```
 
 ---
 
@@ -523,7 +792,7 @@ WHITE_LIST=<[permissions@]IP address or network>
 Output debugging information (default: -nodebug, supplying <category> is optional). If <category> is not supplied or if <category> = 1, output all debugging information. <category> can be: net, tor, mempool, http, bench, zmq, walletdb, rpc, estimatefee, addrman, selectcoins, reindex, cmpctblock, rand, prune, proxy, mempoolrej, libevent, coindb, qt, leveldb, validation.
 
 ```bash
-DEBUG=<category>
+DEBUG=<category>,<category>,<category>
 ```
 
 ---
@@ -531,15 +800,7 @@ DEBUG=<category>
 Exclude debugging information for a category. Can be used in conjunction with -debug=1 to output debug logs for all categories except one or more specified categories.
 
 ```bash
-DEBUG_EXCLUDE=<category>
-```
-
----
-
-Print help message with debugging options and exit
-
-```bash
-HELP_DEBUG=true
+DEBUG_EXCLUDE=<category>,<category>,<category>
 ```
 
 ---
@@ -552,10 +813,10 @@ LOG_IPS=false
 
 ---
 
-Prepend debug output with name of the originating thread (only available on platforms supporting thread_local) (default: false)
+Prepend debug output with name of the originating source location (source file, line number and function name) (default: 0)
 
 ```bash
-LOG_THREAD_NAMES=false
+LOG_SOURCE_LOCATIONS=false
 ```
 
 ---
@@ -613,7 +874,7 @@ SIGNET=true
 Blocks must satisfy the given script to be considered valid (only for signet networks; defaults to the global default signet test network challenge)
 
 ```bash
-SIGNET_CHALLENGE
+SIGNET_CHALLENGE=false
 ```
 
 ---
@@ -621,7 +882,7 @@ SIGNET_CHALLENGE
 Specify a seed node for the signet network, in the hostname[:port] format, e.g. sig.net:1234 (may be used multiple times to specify multiple seed nodes; defaults to the global default signet test network seed node(s))
 
 ```bash
-SIGNET_SEED_NODE=<host[:port]>
+SIGNET_SEED_NODE=<host[:port]>,<host[:port]>,<host[:port]>
 ```
 
 ---
@@ -793,16 +1054,3 @@ SERVER=true
 ```
 
 ---
-
-## ZeroMQ
-
-[https://github.com/bitcoin/bitcoin/blob/master/doc/zmq.md](https://github.com/bitcoin/bitcoin/blob/master/doc/zmq.md)
-[ZeroMQ](https://zeromq.org/) is a lightweight wrapper around TCP connections, inter-process communication, and shared-memory, providing various message-oriented semantics such as publish/subscribe, request/reply, and push/pull.
-
-```bash
-ZMQ_PUB_HASH_TX=<tcp://ip:28332>
-ZMQ_PUB_HASH_BLOCK=<tcp://ip:28332>
-ZMQ_PUB_RAW_BLOCK=<tcp://ip:28332>
-ZMQ_PUB_RAW_TX=<ipc://location.of.socket>
-ZMQ_PUB_SEQUENCE=<10000>
-```

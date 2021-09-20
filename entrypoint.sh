@@ -26,8 +26,7 @@ template_config(){
   fi
 
   if [[ -n "${BLOCK_FILTER_INDEX}" ]]; then
-    if $BLOCK_FILTER_INDEX; then _flag=1 ; else _flag=0; fi
-    sed -i "/#blockfilterindex=.*/c\blockfilterindex=${_flag}" $BITCOIN_CONFIG_FILE
+    sed -i "/#blockfilterindex=.*/c\blockfilterindex=${BLOCK_FILTER_INDEX}" $BITCOIN_CONFIG_FILE
   fi
 
   if [[ -n "${BLOCK_NOTIFY}" ]]; then
@@ -47,6 +46,11 @@ template_config(){
     sed -i "/#blocksonly=.*/c\blocksonly=${_flag}" $BITCOIN_CONFIG_FILE
   fi
 
+  if [[ -n "${COIN_STATS_INDEX}" ]]; then
+    if $COIN_STATS_INDEX; then _flag=1 ; else _flag=0; fi
+    sed -i "/#coinstatsindex=.*/c\coinstatsindex=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+  
   if [[ -n "${CONF}" ]]; then
     sed -i "/#conf=.*/c\conf=${CONF}" $BITCOIN_CONFIG_FILE
   fi
@@ -54,6 +58,11 @@ template_config(){
   if [[ -n "${DAEMON}" ]]; then
     if $DAEMON; then _flag=1 ; else _flag=0; fi
     sed -i "/#daemon=.*/c\daemon=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${DAEMON_WAIT}" ]]; then
+    if $DAEMON_WAIT; then _flag=1 ; else _flag=0; fi
+    sed -i "/#daemonwait=.*/c\daemonwait=${_flag}" $BITCOIN_CONFIG_FILE
   fi
 
   if [[ -n "${DATA_DIR}" ]]; then
@@ -102,8 +111,7 @@ template_config(){
   fi
 
   if [[ -n "${PRUNE}" ]]; then
-    if $PRUNE; then _flag=1 ; else _flag=0; fi
-    sed -i "/#prune=.*/c\prune=${_flag}" $BITCOIN_CONFIG_FILE
+    sed -i "/#prune=.*/c\prune=${PRUNE}" $BITCOIN_CONFIG_FILE
   fi
 
   if [[ -n "${REINDEX}" ]]; then
@@ -140,7 +148,7 @@ template_config(){
 
     ## Parse through each item
     for node in ${nodes[@]}; do
-      sed -i "/#addnode=<address:port>/a\addnode=${node}" $BITCOIN_CONFIG_FILE
+      sed -i "/#addnode=<ip>/a\addnode=${node}" $BITCOIN_CONFIG_FILE
     done
   fi
  
@@ -153,7 +161,13 @@ template_config(){
   fi
 
   if [[ -n "${BIND}" ]]; then
-    sed -i "/#bind=.*/c\bind=${BIND}" $BITCOIN_CONFIG_FILE
+    ## Convert string into an array
+    nics=(${BIND//,/ })
+
+    ## Parse through each item
+    for nic in ${nics[@]}; do
+      sed -i "/#bind=.*/c\bind=${nic}" $BITCOIN_CONFIG_FILE
+    done
   fi
 
   if [[ -n "${CONNECT}" ]]; then
@@ -185,9 +199,29 @@ template_config(){
     sed -i "/#externalip=.*/c\externalip=${EXTERNAL_IP}" $BITCOIN_CONFIG_FILE
   fi
 
+  if [[ -n "${FIXED_SEEDS}" ]]; then
+    if $FIXED_SEEDS; then _flag=1 ; else _flag=0; fi
+    sed -i "/#fixedseeds=.*/c\fixedseeds=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
   if [[ -n "${FORCE_DNS_SEED}" ]]; then
     if $FORCE_DNS_SEED; then _flag=1 ; else _flag=0; fi
     sed -i "/#forcednsseed=.*/c\forcednsseed=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${I2P_ACCEPT_INCOMING}" ]]; then
+    if $I2P_ACCEPT_INCOMING; then _flag=1 ; else _flag=0; fi
+    sed -i "/#i2pacceptincoming=.*/c\i2pacceptincoming=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${I2P_SAM}" ]]; then
+    ## Convert string into an array
+    peers=(${I2P_SAM//,/ })
+
+    ## Parse through each item
+    for peer in ${peers[@]}; do
+      sed -i "/#i2psam=<ip:port>/a\i2psam=${peer}" $BITCOIN_CONFIG_FILE
+    done
   fi
  
   if [[ -n "${LISTEN}" ]]; then
@@ -218,6 +252,11 @@ template_config(){
 
   if [[ -n "${MAX_UPLOAD_TARGET}" ]]; then
     sed -i "/#maxuploadtarget=.*/c\maxuploadtarget=${MAX_UPLOAD_TARGET}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${NAT_PMP}" ]]; then
+    if $NAT_PMP; then _flag=1 ; else _flag=0; fi
+    sed -i "/#natpmp=.*/c\natpmp=${_flag}" $BITCOIN_CONFIG_FILE
   fi
 
   if [[ -n "${NETWORK_ACTIVE}" ]]; then
@@ -314,6 +353,132 @@ template_config(){
     done
   fi
 
+  if [[ -n "${ADDRESS_TYPE}" ]]; then
+    sed -i "/#addresstype=.*/c\addresstype=${ADDRESS_TYPE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${AVOID_PARTIAL_SPENDS}" ]]; then
+    if $AVOID_PARTIAL_SPENDS; then _flag=1 ; else _flag=0; fi
+    sed -i "/#avoidpartialspends=.*/c\avoidpartialspends=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${CHANGE_TYPE}" ]]; then
+    sed -i "/#changetype=.*/c\changetype=${CHANGE_TYPE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${DISABLE_WALLET}" ]]; then
+    if $DISABLE_WALLET; then _flag=1 ; else _flag=0; fi
+    sed -i "/#disablewallet=.*/c\disablewallet=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${DISCARD_FEE}" ]]; then
+    sed -i "/#discardfee=.*/c\discardfee=${DISCARD_FEE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${FALLBACK_FEE}" ]]; then
+    sed -i "/#fallbackfee=.*/c\fallbackfee=${FALLBACK_FEE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${KEY_POOL}" ]]; then
+    sed -i "/#keypool=.*/c\keypool=${KEY_POOL}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${MAX_APS_FEE}" ]]; then
+    sed -i "/#maxapsfee=.*/c\maxapsfee=${MAX_APS_FEE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${MIN_TX_FEE}" ]]; then
+    sed -i "/#mintxfee=.*/c\mintxfee=${MIN_TX_FEE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${MAX_TX_FEE}" ]]; then
+    sed -i "/#maxtxfee=.*/c\maxtxfee=${MAX_TX_FEE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${PAY_TX_FEE}" ]]; then
+    sed -i "/#paytxfee=.*/c\paytxfee=${PAY_TX_FEE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${RESCAN}" ]]; then
+    if $RESCAN; then _flag=1 ; else _flag=0; fi
+    sed -i "/#rescan=.*/c\rescan=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${SIGNER}" ]]; then
+    sed -i "/#signer=.*/c\signer=${SIGNER}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${SPEND_ZERO_CONF_CHANGE}" ]]; then
+    if $SPEND_ZERO_CONF_CHANGE; then _flag=1 ; else _flag=0; fi
+    sed -i "/#spendzeroconfchange=.*/c\spendzeroconfchange=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${TX_CONFIRM_TARGET}" ]]; then
+    sed -i "/#txconfirmtarget=.*/c\txconfirmtarget=${TX_CONFIRM_TARGET}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${WALLET}" ]]; then
+    sed -i "/#wallet=.*/c\wallet=${WALLET}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${WALLET_BROADCAST}" ]]; then
+    if $WALLET_BROADCAST; then _flag=1 ; else _flag=0; fi
+    sed -i "/#walletbroadcast=.*/c\walletbroadcast=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${WALLET_DIR}" ]]; then
+    sed -i "/#walletdir=.*/c\walletdir=${WALLET_DIR}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${WALLET_NOTIFY}" ]]; then
+    sed -i "/#walletnotify=.*/c\walletnotify=${WALLET_NOTIFY}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${WALLET_RBF}" ]]; then
+    if $WALLET_RBF; then _flag=1 ; else _flag=0; fi
+    sed -i "/#walletrbf=.*/c\walletrbf=${_flag}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_HASH_BLOCK}" ]]; then
+    sed -i "/#zmqpubhashblock=.*/c\zmqpubhashblock=${ZMQ_PUB_HASH_BLOCK}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_HASH_BLOCK_HWM}" ]]; then
+    sed -i "/#zmqpubhashblockhwm=.*/c\zmqpubhashblockhwm=${ZMQ_PUB_HASH_BLOCK_HWM}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_HASH_TX_HWM}" ]]; then
+    sed -i "/#zmqpubhashtxhwm=.*/c\zmqpubhashtxhwm=${ZMQ_PUB_HASH_TX_HWM}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_HASH_TX}" ]]; then
+    sed -i "/#zmqpubhashtx=.*/c\zmqpubhashtx=${ZMQ_PUB_HASH_TX}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_RAW_BLOCK}" ]]; then
+    sed -i "/#zmqpubrawblock=.*/c\zmqpubrawblock=${ZMQ_PUB_RAW_BLOCK}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_RAW_BLOCK_HWM}" ]]; then
+    sed -i "/#zmqpubrawblockhwm=.*/c\zmqpubrawblockhwm=${ZMQ_PUB_RAW_BLOCK_HWM}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_RAW_TX}" ]]; then
+    sed -i "/#zmqpubrawtx=.*/c\zmqpubrawtx=${ZMQ_PUB_RAW_TX}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_RAW_TX_HWM}" ]]; then
+    sed -i "/#zmqpubrawtxhwm=.*/c\zmqpubrawtxhwm=${ZMQ_PUB_RAW_TX_HWM}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_SEQUENCE}" ]]; then
+    sed -i "/#zmqpubsequence=.*/c\zmqpubsequence=${ZMQ_PUB_SEQUENCE}" $BITCOIN_CONFIG_FILE
+  fi
+
+  if [[ -n "${ZMQ_PUB_SEQUENCE_HWM}" ]]; then
+    sed -i "/#zmqpubsequencehwm=.*/c\zmqpubsequencehwm=${ZMQ_PUB_SEQUENCE_HWM}" $BITCOIN_CONFIG_FILE
+  fi
+
   if [[ -n "${DEBUG}" ]]; then
     ## Convert string to array comma separated
     categories=(${DEBUG//,/ })
@@ -325,7 +490,13 @@ template_config(){
   fi
 
   if [[ -n "${DEBUG_EXCLUDE}" ]]; then
-    sed -i "/#debugexclude=.*/c\debugexclude=${DEBUG_EXCLUDE}" $BITCOIN_CONFIG_FILE
+    ## Convert string to array comma separated
+    categories=(${DEBUG_EXCLUDE//,/ })
+
+    ## Parse through categories
+    for cat in ${categories[@]}; do 
+      sed -i "/#debugexclude=.*/a\debugexclude=${cat}" $BITCOIN_CONFIG_FILE
+    done
   fi
 
   # if [[ -n "${HELP_DEBUG}" ]]; then
@@ -336,11 +507,16 @@ template_config(){
     if $LOG_IPS; then _flag=1 ; else _flag=0; fi
     sed -i "/#logips=.*/c\logips=${_flag}" $BITCOIN_CONFIG_FILE
   fi
- 
-  if [[ -n "${LOG_THREAD_NAMES}" ]]; then
-    if $LOG_THREAD_NAMES; then _flag=1 ; else _flag=0; fi
-    sed -i "/#logthreadnames=.*/c\logthreadnames=${_flag}" $BITCOIN_CONFIG_FILE
+
+  if [[ -n "${LOG_SOURCE_LOCATIONS}" ]]; then
+    if $LOG_SOURCE_LOCATIONS; then _flag=1 ; else _flag=0; fi
+    sed -i "/#logsourcelocations=.*/c\logsourcelocations=${_flag}" $BITCOIN_CONFIG_FILE
   fi
+ 
+  # if [[ -n "${LOG_THREAD_NAMES}" ]]; then
+  #   if $LOG_THREAD_NAMES; then _flag=1 ; else _flag=0; fi
+  #   sed -i "/#logthreadnames=.*/c\logthreadnames=${_flag}" $BITCOIN_CONFIG_FILE
+  # fi
 
   if [[ -n "${LOG_TIMESTAMPS}" ]]; then
     if $LOG_TIMESTAMPS; then _flag=1 ; else _flag=0; fi
@@ -371,7 +547,8 @@ template_config(){
   fi
 
   if [[ -n "${SIGNET_CHALLENGE}" ]]; then
-    sed -i "/#signetchallenge/c\signetchallenge" $BITCOIN_CONFIG_FILE
+    if $SIGNET_CHALLENGE; then _flag=1 ; else _flag=0; fi
+    sed -i "/#signetchallenge/c\signetchallenge=${_flag}" $BITCOIN_CONFIG_FILE
   fi
 
   if [[ -n "${SIGNET_SEED_NODE}" ]]; then
@@ -380,7 +557,7 @@ template_config(){
 
     ## Parse through each item
     for node in ${nodes[@]}; do
-      sed -i "/#signetseednode=<host[:port]>/a\signetseednode=${node}" $BITCOIN_CONFIG_FILE
+      sed -i "/#signetseednode=<address:port>/a\signetseednode=${node}" $BITCOIN_CONFIG_FILE
     done
   fi
 
@@ -435,7 +612,7 @@ template_config(){
 
     ## Parse through each item
     for ip in ${ips[@]}; do
-      sed -i "/#rpcallowip=127.0.0.1/a\rpcallowip=${ip}" $BITCOIN_CONFIG_FILE
+      sed -i "/#rpcallowip=<ip>/a\rpcallowip=${ip}" $BITCOIN_CONFIG_FILE
     done
   fi 
 
@@ -453,7 +630,7 @@ template_config(){
 
     ## Parse through each item
     for ip in ${ips[@]}; do
-      sed -i "/#rpcbind=127.0.0.1:8332/a\rpcbind=${ip}" $BITCOIN_CONFIG_FILE
+      sed -i "/#rpcbind=<addr>[:port]/a\rpcbind=${ip}" $BITCOIN_CONFIG_FILE
     done
   fi 
 
@@ -495,26 +672,6 @@ template_config(){
     if $SERVER; then _flag=1 ; else _flag=0; fi
     sed -i "/#server=.*/c\server=${_flag}" $BITCOIN_CONFIG_FILE
   fi
-
-  if [[ -n "${ZMQ_PUB_HASH_TX}" ]]; then
-    sed -i "/#zmqpubhashtx=.*/c\zmqpubhashtx=${ZMQ_PUB_HASH_TX}" $BITCOIN_CONFIG_FILE
-  fi 
-
-  if [[ -n "${ZMQ_PUB_HASH_BLOCK}" ]]; then
-    sed -i "/#zmqpubhashblock=.*/c\zmqpubhashblock=${ZMQ_PUB_HASH_BLOCK}" $BITCOIN_CONFIG_FILE
-  fi 
-
-  if [[ -n "${ZMQ_PUB_RAW_BLOCK}" ]]; then
-    sed -i "/#zmqpubrawblock=.*/c\zmqpubrawblock=${ZMQ_PUB_RAW_BLOCK}" $BITCOIN_CONFIG_FILE
-  fi 
-
-  if [[ -n "${ZMQ_PUB_RAW_TX}" ]]; then
-    sed -i "/#zmqpubrawtx=.*/c\zmqpubrawtx=${ZMQ_PUB_RAW_TX}" $BITCOIN_CONFIG_FILE
-  fi 
-
-  if [[ -n "${ZMQ_PUB_SEQUENCE}" ]]; then
-    sed -i "/#zmqpubsequence=.*/c\zmqpubsequence=${ZMQ_PUB_SEQUENCE}" $BITCOIN_CONFIG_FILE
-  fi 
 }
 
 ##############################################################################

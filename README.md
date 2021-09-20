@@ -1,6 +1,6 @@
 # Docker Bitcoin Core
 
-A docker image for running a bitcoin-core daemon.
+A multi-arch docker image for running a bitcoin-core daemon (including wallet).
 
 Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use. 
 

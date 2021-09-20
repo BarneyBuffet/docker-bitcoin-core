@@ -5,7 +5,7 @@ Authors: Barney Buffet
 Date:    September 18, 2021
 ---
 
-A multi-arch docker image for running a bitcoin-core daemon.
+A multi-arch docker image for running a bitcoin-core daemon (including wallet).
 
 Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use.
 
@@ -25,15 +25,15 @@ This runs a Ubuntu server for the bitcoin-core daemon with wallet. The image doe
 
 The [dockerfile](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/Dockerfile) for this image does the following:
 
-1. Install package dependencies
-2. Downloads the source code for the referenced version
-3. Check the source code download against the signed pgp keys
-4. Extracts the source code,
-5. Compiles Berkeley database
-6. Configures and compiles bitcoin core code
-7. Set up nonroot user for running the daemon
-8. If bitcoin.conf file does not exists it will copy one across and template it out based on env sets
-9. Start up bitcoind
+1. Download pre-compiled binaries from [https://bitcoincore.org/bin/](https://bitcoincore.org/bin/)
+2. Verify binary download against developer keys
+3. Install dependencies
+4. Add nonroot user to container
+5. Create data folders
+6. Copy download binaries into /usr/local
+7. Copy rpcauth, entrypoint and health check scripts to /usr/local
+8. Copy blank `bitcoin.conf` to `/bitcoin/bitcoin.conf` and template out based on [environmental](https://barneybuffet.github.io/docker-bitcoin-core/environmental/) settings
+9. Start the container
 
 ## Using this image
 
@@ -45,7 +45,7 @@ To run a detached docker container with no env settings enter the below command.
 docker run -d  --it \
   --name bitcoin-core \
   -v /local/path/to/bitcoin:/bitcoin \
-  barneybuffet/bitcoin-core:latest:dev
+  barneybuffet/bitcoin-core:latest
 ```
 
 For more complicated configurations check the [docker-compose folder](https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/docker-compose/).

@@ -7,7 +7,7 @@ version: '3.9'
     volumes:
       - /local/path/to/tor:/tor
       - /local/path/to/bitcoin-core:/bitcoin
-    restart: always
+    restart: no
     ports:
       - "8332:8332"
       - "8333:8333"

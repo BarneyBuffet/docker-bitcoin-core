@@ -2,119 +2,116 @@
 ARG UBUNTU_VER=21.10
 
 ############################################################
-## BUILD BITCOIN-CORE
+## BUILD BITCOIN-CORE RELEASE
 ##############################################################
-FROM ubuntu:$UBUNTU_VER AS bitcoin-core
+FROM ubuntu:$UBUNTU_VER AS bitcoin-core-builder
 
 ## Disable prompts during package install
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 
-## IMAGE VARIABLES
-## Get latest version from > https://bitcoincore.org/bin/, can be overwritten on build with --build-arg
-## TODO: update version to 22
-ARG BTC_CORE_VER=0.21.1
-ARG BTC_KEY=01EA5486DE18A882D4C2684590C8019E36C2E964
-
-## INSTALL BUILD DEPENDENCIES
-## https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md#ubuntu--debian
-## Needed to change to libboost-all-dev to compile from src.tar.gz
+## INSTALL DEPENDENCIES
+## Tini allows us to avoid several Docker edge cases, see https://github.com/krallin/tini.
+## dnsutils is needed for DNS resolution to work in *some* Docker networks
 RUN apt-get update && apt-get install -y \
-        build-essential libtool autotools-dev automake pkg-config python3 \
-        libevent-dev libboost-all-dev libboost-test-dev \
-        libsqlite3-dev \
-        libminiupnpc-dev libnatpmp-dev \
-        libzmq3-dev \
-        systemtap-sdt-dev \
-        wget \
-        && rm -rf /var/lib/apt/lists/*
+        gnupg wget  \
+        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-## DOWNLOAD SOURCE, SIGNATURE & VERIFY
+## BITCOIN CORE VARIABLES
+## Get latest version from > https://bitcoincore.org/bin/, can be overwritten on build with --build-arg
+ARG TARGETPLATFORM
+ARG BTC_CORE_VER=22.0
+# Bitcoin keys (all)
+ENV KEYS 71A3B16735405025D447E8F274810B012346C9A6 \
+    01EA5486DE18A882D4C2684590C8019E36C2E964 \
+    0CCBAAFD76A2ECE2CCD3141DE2FFD5B1D88CA97D \
+    152812300785C96444D3334D17565732E08E5E41 \
+    0AD83877C1F0CD1EE9BD660AD7CC770B81FD22A8 \
+    590B7292695AFFA5B672CBB2E13FC145CD3F4304 \
+    28F5900B1BB5D1A4B6B6D1A9ED357015286A333D \
+    CFB16E21C950F67FA95E558F2EEB9F5CC09526C1 \
+    6E01EEC9656903B0542B8F1003DB6322267C373B \
+    D1DBF2C4B96F2DEBF4C16654410108112E7EA81F \
+    9D3CC86A72F8494342EA5FD10A41BDC3F4FAFF1C \
+    74E2DEF5D77260B98BC19438099BAD163C70FBFA \
+    637DB1E23370F84AFF88CCE03152347D07DA627C \
+    82921A4B88FD454B7EB8CE3C796C4109063D4EAF
+# keys to fetch from ubuntu keyserver
+ENV KEYS1 71A3B16735405025D447E8F274810B012346C9A6 \
+    01EA5486DE18A882D4C2684590C8019E36C2E964 \
+    0CCBAAFD76A2ECE2CCD3141DE2FFD5B1D88CA97D \
+    152812300785C96444D3334D17565732E08E5E41 \
+    0AD83877C1F0CD1EE9BD660AD7CC770B81FD22A8 \
+    590B7292695AFFA5B672CBB2E13FC145CD3F4304 \
+    28F5900B1BB5D1A4B6B6D1A9ED357015286A333D \
+    CFB16E21C950F67FA95E558F2EEB9F5CC09526C1 \
+    6E01EEC9656903B0542B8F1003DB6322267C373B \
+    D1DBF2C4B96F2DEBF4C16654410108112E7EA81F \
+    9D3CC86A72F8494342EA5FD10A41BDC3F4FAFF1C \
+    74E2DEF5D77260B98BC19438099BAD163C70FBFA
+# keys to fetch from keys.openpgp.org
+ENV KEYS2 637DB1E23370F84AFF88CCE03152347D07DA627C \
+    82921A4B88FD454B7EB8CE3C796C4109063D4EAF
+
+
+## DOWNLOAD BINARY, SIGNATURE, VERIFY & EXTRACT
 ## https://bitcoincore.org/en/download/#verify-your-download
-RUN wget https://bitcoincore.org/bin/bitcoin-core-${BTC_CORE_VER}/bitcoin-${BTC_CORE_VER}.tar.gz &&\
+RUN if [ "${TARGETPLATFORM}" = "linux/amd64" ]; then export TARGETPLATFORM=x86_64-linux-gnu; fi &&\
+    if [ "${TARGETPLATFORM}" = "linux/arm64" ]; then export TARGETPLATFORM=aarch64-linux-gnu; fi &&\
+    if [ "${TARGETPLATFORM}" = "linux/arm/v7" ]; then export TARGETPLATFORM=arm-linux-gnueabihf; fi &&\
+    ## Download binary
+    wget https://bitcoincore.org/bin/bitcoin-core-${BTC_CORE_VER}/bitcoin-${BTC_CORE_VER}-${TARGETPLATFORM}.tar.gz &&\
     wget https://bitcoincore.org/bin/bitcoin-core-${BTC_CORE_VER}/SHA256SUMS.asc &&\
-    ## Verify that the checksum of the release file is listed in the checksums file
-    sha256sum --ignore-missing --check SHA256SUMS.asc | grep -q "bitcoin-${BTC_CORE_VER}.tar.gz: OK" || { echo "Checksum of release not in asc file"; exit 1; } && \
-    ## Obtain a copy of the release signing key
-    gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys $BTC_KEY && \
-    ## Verify that the checksums file is PGP signed by the release signing key
-    gpg --verify SHA256SUMS.asc 2>&1 | grep -q "gpg: Good signature" || { echo "Couldn't verify signature!"; exit 1; } && \
-    gpg --verify SHA256SUMS.asc 2>&1 | grep -q "Primary key fingerprint: 01EA 5486 DE18 A882 D4C2  6845 90C8 019E 36C2 E96" || { echo "Finger print no good!"; exit 1; }
-
-## EXTRACT BITCOIN-CORE SOURCE
-## https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md#ubuntu--debian
-RUN tar -xzf "bitcoin-${BTC_CORE_VER}.tar.gz"
-WORKDIR /bitcoin-${BTC_CORE_VER}
-
-## BUILD AND INSTALL LIBDB4.8 (BERKELEY DATABASE)
-ARG BERKELEY_INSTALL_FILE=./contrib/install_db4.sh
-RUN set -x &&\
-    sed -i.old 's/make install/make libdb_cxx-4.8.a libdb-4.8.a \&\& make install_lib install_include/' ${BERKELEY_INSTALL_FILE} &&\
-    chmod 755 ${BERKELEY_INSTALL_FILE} &&\
-    ${BERKELEY_INSTALL_FILE} `pwd` --prefix="/usr/local"
-
-## COMPILE BITCOIN CORE
-## Generate headers
-RUN ./autogen.sh &&\
-    ## Configure build
-    ./configure CXXFLAGS="-g -O0" CFLAGS="-g -O0" \
-        # --prefix=/build \
-        --without-gui \
-        --disable-tests \
-        --disable-bench \
-        --disable-cache \
-        --enable-hardening &&\
-    ## Compile build
-    make &&\
-    ## Strip debug symbols
-    strip \
-        src/bitcoin-cli \
-        src/bitcoin-tx \
-        src/bitcoind &&\
-    ## Install
-    make install
+    wget https://bitcoincore.org/bin/bitcoin-core-${BTC_CORE_VER}/SHA256SUMS &&\
+    ## Get PGP keys from server. TODO: confirm verification process
+    timeout 32s gpg  --keyserver keyserver.ubuntu.com  --recv-keys $KEYS1 &&\
+    timeout 32s gpg  --keyserver keys.openpgp.org  --recv-keys $KEYS2 &&\
+    ## Verify that hashes are signed with the previously imported key
+    gpg --verify SHA256SUMS.asc SHA256SUMS &&\
+    ## Verify that downloaded source-code archive matches exactly the hash that's provided
+    grep " bitcoin-${BTC_CORE_VER}-${TARGETPLATFORM}.tar.gz\$" SHA256SUMS | sha256sum -c - &&\
+    ## Extract binaries and remove GUI 
+    tar -xzf "bitcoin-${BTC_CORE_VER}-${TARGETPLATFORM}.tar.gz" && \
+    mv /bitcoin-${BTC_CORE_VER} /bitcoin-core &&\
+    rm /bitcoin-core/bin/bitcoin-qt
+    
 
 ############################################################
-## STAGE TWO
-## Build release image
+## BUILD BITCOIN-CORE RELEASE
 ##############################################################
 FROM ubuntu:$UBUNTU_VER AS release
 
-    ## Disable prompts during package install
-ENV DEBIAN_FRONTEND=noninteractive \
-    ## Bitcoind data directory
-    DATA_DIR=/bitcoin \
-    ## Tor data directory
-    TOR_DIR=/tor \
-    ## Container user
-    USER=nonroot \
+## Disable prompts during package install
+ENV DEBIAN_FRONTEND=noninteractive
+
+## INSTALL DEPENDENCIES
+## Tini allows us to avoid several Docker edge cases, see https://github.com/krallin/tini.
+## dnsutils is needed for DNS resolution to work in *some* Docker networks
+RUN apt-get update && apt-get install -y \
+        python3 bash curl \
+        tini dnsutils \
+        && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+## NON-ROOT USER VARIABLE
+ENV USER=nonroot \
     GROUP=nonroot \
     PUID=10000 \
     PGID=10001
 
-## Non-root user for security purposes.
+## CREATE NON-ROOT USER FOR SECURITY
 RUN addgroup --gid ${PGID} --system  ${GROUP} && \
     adduser  --uid ${PUID} --system --ingroup ${GROUP} --home /home/${USER} ${USER}
 
-## INSTALL PACKAGES
-## Tini allows us to avoid several Docker edge cases, see https://github.com/krallin/tini.
-## dnsutils is needed for DNS resolution to work in *some* Docker networks
-RUN apt-get update && apt-get install -y \
-        libevent-dev libboost-all-dev libminiupnpc-dev libnatpmp-dev libzmq3-dev libsqlite3-dev \
-        bash \
-        curl \
-        tini \
-        python3 \
-        dnsutils \
-        nano \
-        && rm -rf /var/lib/apt/lists/*
+## BITCOIN CORE AND TOR DATA DIRECTORY
+ENV DATA_DIR=/bitcoin \
+    TOR_DIR=/tor 
 
-## CREATE DIRECTORIES
+## CREATE DATA DIRECTORIES
 RUN mkdir -p ${DATA_DIR}/ && chown -R ${USER}:${GROUP} ${DATA_DIR}/ && chmod 700 ${DATA_DIR}/ && \
     mkdir -p ${TOR_DIR}/ && chown -R ${USER}:${GROUP} ${TOR_DIR}/ && chmod 700 ${TOR_DIR}/
 
 ## COPY FILES TO DOCKER IMAGE
-## Copy compiled bitcoin daemon from bitcoin-builder
-COPY --from=bitcoin-core /usr/local/ /usr/local/
+## Copy  bitcoin daemon from bitcoin-core-builder
+COPY --from=bitcoin-core-builder /bitcoin-core/ /usr/local/
 
 ## Copy file for generating authentication string setting
 COPY --chown=${USER}:${GROUP} --chmod=700 rpcauth.py /usr/local/share
@@ -138,8 +135,10 @@ ENV CONFIG_OVERWRITE="false" \
     BLOCK_RECONSTRUCTION_EXTRA_TXN= \
     BLOCKS_DIR= \
     BLOCKS_ONLY= \
+    COIN_STATS_INDEX= \
     CONF= \
     DAEMON= \
+    DAEMON_WAIT= \
     # DATA_DIR = \ # This is set by the image above so lets not double up
     DB_CACHE= \
     DEBUG_LOG_FILE= \
@@ -167,14 +166,17 @@ ENV CONFIG_OVERWRITE="false" \
     DNS= \
     DNS_SEED= \
     EXTERNAL_IP= \
+    FIXED_SEEDS= \
     FORCE_DNS_SEED= \
+    I2P_ACCEPT_INCOMING= \
+    I2P_SAM= \
     LISTEN= \
     LISTEN_ONION= \
     MAX_CONNECTIONS= \
     MAX_RECEIVE_BUFFER= \
     MAX_SEND_BUFFER= \
     MAX_TIME_ADJUSTMENT= \
-    MAX_UPLOAD_TARGET= \
+    NAT_PMP= \
     NETWORK_ACTIVE= \
     ONION= \
     ONLY_NET= \
@@ -191,10 +193,40 @@ ENV CONFIG_OVERWRITE="false" \
     UPNP= \
     WHITE_BIND= \
     WHITE_LIST= \
+    ADDRESS_TYPE= \
+    AVOID_PARTIAL_SPENDS= \
+    CHANGE_TYPE= \
+    DISABLE_WALLET= \
+    DISCARD_FEE= \
+    FALLBACK_FEE= \
+    KEY_POOL= \
+    MAX_APS_FEE= \
+    MIN_TX_FEE= \
+    MAX_TX_FEE= \
+    PAY_TX_FEE= \
+    RESCAN= \
+    SIGNER= \
+    SPEND_ZERO_CONF_CHANGE= \
+    TX_CONFIRM_TARGET= \
+    WALLET= \
+    WALLET_BROADCAST= \
+    WALLET_DIR= \
+    WALLET_NOTIFY= \
+    WALLET_RBF= \
+    ZMQ_PUB_HASH_BLOCK= \
+    ZMQ_PUB_HASH_BLOCK_HWM= \
+    ZMQ_PUB_HASH_TX= \
+    ZMQ_PUB_HASH_TX_HWM= \
+    ZMQ_PUB_RAW_BLOCK= \
+    ZMQ_PUB_RAW_BLOCK_HWM= \
+    ZMQ_PUB_RAW_TX= \
+    ZMQ_PUB_RAW_TX_HWM= \
+    ZMQ_PUB_SEQUENCE= \
+    ZMQ_PUB_SEQUENCE_HWM= \
     DEBUG= \
     DEBUG_EXCLUDE= \
     LOG_IPS= \
-    LOG_THREAD_NAMES= \
+    LOG_SOURCE_LOCATIONS= \
     LOG_TIMESTAMPS= \
     PRINT_TO_CONSOLE= \
     SHRINK_DEBUG_FILE= \
@@ -223,12 +255,11 @@ ENV CONFIG_OVERWRITE="false" \
     RPC_USER= \ 
     RPC_WHITE_LIST= \
     RPC_WHITE_LIST_DEFAULT= \
-    SERVER= \
-    ZMQ_PUB_HASH_TX= \
-    ZMQ_PUB_HASH_BLOCK= \
-    ZMQ_PUB_RAW_BLOCK= \
-    ZMQ_PUB_RAW_TX= \
-    ZMQ_PUB_SEQUENCE=
+    SERVER= 
+
+HEALTHCHECK --interval=60s --timeout=15s --start-period=20s \
+            CMD bash /usr/local/healthcheck.sh \
+            || exit 1
 
 ## Label the docker image
 LABEL maintainer="Barney Buffet <BarneyBuffet@tutanota.com>"

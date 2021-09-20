@@ -1,4 +1,4 @@
-BTC_CORE_VER=0.21.1
+BTC_CORE_VER=22.0
 UBUNTU_VER=21.04
 
 login:
@@ -18,6 +18,15 @@ build:
 		--platform linux/amd64,linux/arm64,linux/arm/v7 \
 		-t barneybuffet/bitcoin-core:$(BTC_CORE_VER) \
 		-t barneybuffet/bitcoin-core:latest \
+		--build-arg BTC_CORE_VER=$(BTC_CORE_VER) \
+		--build-arg UBUNTU_VER=$(UBUNTU_VER) \
+		--push \
+		. \
+
+build-test:
+	docker buildx build \
+		--platform linux/amd64,linux/arm64,linux/arm/v7 \
+		-t barneybuffet/bitcoin-core:test \
 		--build-arg BTC_CORE_VER=$(BTC_CORE_VER) \
 		--build-arg UBUNTU_VER=$(UBUNTU_VER) \
 		--push \
