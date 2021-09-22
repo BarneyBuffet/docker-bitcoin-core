@@ -7,7 +7,7 @@ services:
     volumes:
       - ~/Documents/docker/bitcoin_core_test/tor:/tor
       - ~/Documents/docker/bitcoin_core_test/bitcoin_core:/bitcoin
-    restart: always
+    restart: "no"
     ports:
       - "8332:8332"
       - "8333:8333"
@@ -133,7 +133,7 @@ services:
       BLOCK_MAX_WEIGHT: "3996000"
       BLOCK_MIN_TX_FEE: "0.00001"
       REST: "false"
-      RPC_ALLOW_IP: "127.0.0.1,192.168.0.3"
+      RPC_ALLOW_IP: "127.0.0.1,192.168.0.1/24"
       RPC_BIND: "127.0.0.1:8332,127.0.0.2:8332"
       RPC_COOKIE_FILE: "/location/of/cookie"
       RPC_PASSWORD: "password"

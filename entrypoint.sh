@@ -166,7 +166,7 @@ template_config(){
 
     ## Parse through each item
     for nic in ${nics[@]}; do
-      sed -i "/#bind=.*/c\bind=${nic}" $BITCOIN_CONFIG_FILE
+      sed -i "/#bind=.*/a\bind=${nic}" $BITCOIN_CONFIG_FILE
     done
   fi
 
@@ -630,7 +630,7 @@ template_config(){
 
     ## Parse through each item
     for ip in ${ips[@]}; do
-      sed -i "/#rpcbind=<addr>[:port]/a\rpcbind=${ip}" $BITCOIN_CONFIG_FILE
+      sed -i "/#rpcbind=.*/a\rpcbind=${ip}" $BITCOIN_CONFIG_FILE
     done
   fi 
 
