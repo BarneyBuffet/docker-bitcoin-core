@@ -3,7 +3,6 @@ version: '3.9'
   bitcoin:
 
     image: barneybuffet/bitcoin-core:latest
-    user: "10000:10001"
     volumes:
       - /local/path/to/tor:/tor
       - /local/path/to/bitcoin-core:/bitcoin

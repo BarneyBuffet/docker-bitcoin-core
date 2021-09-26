@@ -11,6 +11,22 @@ The docker image creates a `/bitcoin/bitcoin.conf.lock` after templating. If the
 
 ---
 
+Set user id to match local user for file permissions
+
+```bash
+PUID=1000
+```
+
+---
+
+Set group id to match local user for file permissions
+
+```bash
+PGID=1001
+```
+
+---
+
 Overwrite config based on environmental variables set
 
 ```bash

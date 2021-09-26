@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "aarch",
         "addgroup",
         "addnode",
         "adduser",
@@ -35,6 +36,8 @@
         "forcednsseed",
         "getblockchaininfo",
         "getconnectioncount",
+        "gnueabihf",
+        "gosu",
         "healthcheck",
         "includeconf",
         "libboost",
@@ -62,6 +65,7 @@
         "noninteractive",
         "nonroot",
         "onlynet",
+        "openpgp",
         "peerblockfilters",
         "peerbloomfilters",
         "permitbaremultisig",
@@ -90,6 +94,7 @@
         "sysperms",
         "systemtap",
         "TARGETARCH",
+        "TARGETPLATFORM",
         "Tini",
         "torcontrol",
         "torpassword",

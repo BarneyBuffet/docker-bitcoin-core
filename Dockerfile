@@ -88,45 +88,41 @@ ENV DEBIAN_FRONTEND=noninteractive
 ## dnsutils is needed for DNS resolution to work in *some* Docker networks
 RUN apt-get update && apt-get install -y \
         python3 bash curl \
-        tini dnsutils \
+        tini dnsutils gosu \
         && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-## NON-ROOT USER VARIABLE
-ENV USER=nonroot \
-    GROUP=nonroot \
-    PUID=10000 \
-    PGID=10001
-
 ## CREATE NON-ROOT USER FOR SECURITY
-RUN addgroup --gid ${PGID} --system  ${GROUP} && \
-    adduser  --uid ${PUID} --system --ingroup ${GROUP} --home /home/${USER} ${USER}
+RUN addgroup --gid 1001 --system nonroot && \
+    adduser  --uid 1000 --system --ingroup nonroot --home /home/nonroot nonroot
 
 ## BITCOIN CORE AND TOR DATA DIRECTORY
 ENV DATA_DIR=/bitcoin \
-    TOR_DIR=/tor 
+    TOR_DIR=/tor
 
-## CREATE DATA DIRECTORIES
-RUN mkdir -p ${DATA_DIR}/ && chown -R ${USER}:${GROUP} ${DATA_DIR}/ && chmod 700 ${DATA_DIR}/ && \
-    mkdir -p ${TOR_DIR}/ && chown -R ${USER}:${GROUP} ${TOR_DIR}/ && chmod 700 ${TOR_DIR}/
+# ## CREATE DATA DIRECTORIES
+RUN mkdir -p ${DATA_DIR}/ && chown -R nonroot:nonroot ${DATA_DIR}/ && chmod go=rX,u=rwX ${DATA_DIR}/ && \
+    mkdir -p ${TOR_DIR}/ && chown -R nonroot:nonroot ${TOR_DIR}/ && chmod go=rX,u=rwX ${TOR_DIR}/
 
 ## COPY FILES TO DOCKER IMAGE
 ## Copy  bitcoin daemon from bitcoin-core-builder
 COPY --from=bitcoin-core-builder /bitcoin-core/ /usr/local/
 
 ## Copy file for generating authentication string setting
-COPY --chown=${USER}:${GROUP} --chmod=700 rpcauth.py /usr/local/share
+COPY --chown=nonroot:nonroot --chmod=go+rX,u+rwX rpcauth.py /usr/local/share
 
 ## Copy entrypoint bash script for templating config
-COPY --chown=${USER}:${GROUP} --chmod=700 entrypoint.sh /usr/local/bin
+COPY --chown=nonroot:nonroot --chmod=go+rX,u+rwX entrypoint.sh /usr/local/bin
 
 ## Copy health check bash script to image
-COPY --chown=${USER}:${GROUP} --chmod=700 healthcheck.sh /usr/local/bin
+COPY --chown=nonroot:nonroot --chmod=go+rX,u+rwX healthcheck.sh /usr/local/bin
 
 ## Copy torrc and examples to tmp tor. Entrypoint will copy across to bind-volume
-COPY --chown=${USER}:${GROUP} --chmod=u+rw ./bitcoin.conf* /tmp
+COPY --chown=nonroot:nonroot --chmod=u+rw ./bitcoin.conf* /tmp
 
 ## Available environmental variables
-ENV CONFIG_OVERWRITE="false" \
+ENV PUID= \
+    PGID= \
+    CONFIG_OVERWRITE="false" \
     LOG_CONFIG="false" \
     ALERT_NOTIFY= \
     ASSUME_VALID= \
@@ -270,8 +266,8 @@ LABEL license="MIT"
 LABEL url="https://bitcoincore.org/"
 LABEL vcs-url="https://BarneyBuffet.github.io/docker-bitcoin-core/"
 
-USER ${USER}:${GROUP}
+VOLUME ["${DATA_DIR}"]
 WORKDIR ${DATA_DIR}
-EXPOSE 8333/tcp 8334/tcp
+EXPOSE 8332 8333 18332 18333 18443 18444 38333 38332
 ENTRYPOINT ["/usr/bin/tini", "--", "entrypoint.sh"]
 CMD bitcoind
