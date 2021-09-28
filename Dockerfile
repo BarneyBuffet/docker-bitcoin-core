@@ -253,9 +253,9 @@ ENV PUID= \
     RPC_WHITE_LIST_DEFAULT= \
     SERVER= 
 
-HEALTHCHECK --interval=60s --timeout=15s --start-period=20s \
-            CMD bash /usr/local/healthcheck.sh \
-            || exit 1
+# HEALTHCHECK --interval=60s --timeout=15s --start-period=20s \
+#             CMD bash /usr/local/healthcheck.sh \
+#             || exit 1
 
 ## Label the docker image
 LABEL maintainer="Barney Buffet <BarneyBuffet@tutanota.com>"

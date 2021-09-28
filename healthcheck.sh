@@ -2,7 +2,7 @@
 set -eo pipefail
 
 ## Get the number of node connections
-CONNECTIONS=$(bitcoin-cli getconnectioncount);
+CONNECTIONS=$(gosu nonroot bitcoin-cli getconnectioncount);
 
 ## If we have no connections throw an error
 if [ "$CONNECTIONS" -eq "0" ]; then

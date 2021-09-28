@@ -22,15 +22,13 @@ map_user(){
 
   ## Make sure volumes directories match nonroot
   chown -R nonroot:nonroot \
-    ${DATA_DIR} \
-    ${TOR_DIR}
-  echo "Enforced ownership of ${DATA_DIR} & ${TOR_DIR} to nonroot:nonroot"
+    ${DATA_DIR}
+  echo "Enforced ownership of ${DATA_DIR} to nonroot:nonroot"
   
   ## Make sure volume permissions are correct
   chmod -R go=rX,u=rwX \
-    ${DATA_DIR} \
-    ${TOR_DIR}
-  echo "Enforced permissions for ${DATA_DIR} & ${TOR_DIR} to go=rX & u=rwX"
+    ${DATA_DIR}
+  echo "Enforced permissions for ${DATA_DIR} to go=rX & u=rwX"
 
   ## Export to the rest of the bash script
   export PUID
@@ -718,7 +716,7 @@ template_config(){
 link_config(){
   if [[ ! -e /home/nonroot/.bitcoin/bitcoin.conf ]]; then 
     ## Symbolic link config to avoid having set -conf with cli
-    mkdir -p /home/nonroot/.bitcoin && chown -R nonroot:${_GROUP} /home/nonroot/.bitcoin && chmod 700 /home/nonroot/.bitcoin
+    mkdir -p /home/nonroot/.bitcoin && chown -R nonroot:nonroot /home/nonroot/.bitcoin && chmod 700 /home/nonroot/.bitcoin
     ln -s ${_BITCOIN_CONFIG_FILE} /home/nonroot/.bitcoin/bitcoin.conf
   fi
 }
