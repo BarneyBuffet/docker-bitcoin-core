@@ -4,7 +4,7 @@ services:
   bitcoin_core:
     image: bitcoin_core:dev
     volumes:
-      - ~/Documents/docker/bitcoin_core_test/bitcoin_core:/bitcoin
+      - ~/Documents/docker/bitcoin-core-test/bitcoin-core:/bitcoin
     restart: "no"
     ports:
       - "8332:8332"
@@ -136,6 +136,7 @@ services:
       RPC_ALLOW_IP: "127.0.0.1,192.168.0.1/24"
       RPC_BIND: "127.0.0.1:8332,127.0.0.2:8332"
       RPC_COOKIE_FILE: "/location/of/cookie"
+      RPC_AUTH: "bob:password alice:password"
       RPC_PASSWORD: "password"
       RPC_PORT: "8332"
       RPC_SERIAL_VERSION: "true"

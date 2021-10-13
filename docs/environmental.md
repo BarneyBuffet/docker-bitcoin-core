@@ -43,6 +43,12 @@ LOG_CONFIG=false
 
 ---
 
+Remove file locks on startup. File locks ensure two instances of bitcoin-core are not trying to access the same database files, which is good. When you have an ungraceful shutdown file locks stop the container from starting up again.
+
+REMOVE_FILE_LOCKS=false
+
+---
+
 Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)
 
 ```bash
@@ -999,10 +1005,12 @@ RPC_ALLOW_IP=127.0.0.1
 
 Username and HMAC-SHA-256 hashed password for JSON-RPC connections. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. A canonical python script is included in /usr/local/share/rpcauth.py. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. This option can be specified multiple times
 
+Multiple username:password pairs can be set. 
+
+The entrypoint script parses each pair by a space and password username is parsed by a `:`
+
 ```bash
-RPC_USER=<username>
-RPC_PASSWORD=<password>
-# rpcauth=<USERNAME>:<SALT>$<HASH>
+RPC_AUTH=<username:password> <username:password>
 ```
 
 ---
@@ -1019,6 +1027,14 @@ Location of the auth cookie. Relative paths will be prefixed by a net-specific d
 
 ```bash
 RPC_COOKIE_FILE=<loc>
+```
+
+---
+
+Password for JSON-RPC connections. RPC_AUTH is the preferred method of setting username and password.
+
+```bash
+RPC_PASSWORD=<password>
 ```
 
 ---
@@ -1043,6 +1059,14 @@ Set the number of threads to service RPC calls (default: 4)
 
 ```bash
 RPC_THREADS=4
+```
+
+---
+
+Username for JSON-RPC connections. RPC_AUTH is the preferred method of setting username and password.
+
+```bash
+RPC_USER=<username>
 ```
 
 ---

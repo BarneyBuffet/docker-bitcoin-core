@@ -650,12 +650,29 @@ template_config(){
     done
   fi 
 
-  if [[ -n "${RPC_USER}" ]] && [[ -n "${RPC_PASSWORD}" ]] ; then
+  if [[ -n "${RPC_AUTH}" ]]; then
+    ## TODO: Multiple rpcauths
 
-    ## Generate authentication string
-    _rpcauth=$(/usr/local/share/rpcauth.py ${RPC_USER} ${RPC_PASSWORD})  
+    ## Convert string of auths into an array
+    auths=(${RPC_AUTH// / })
 
-    sed -i "/#rpcauth=.*/c\\${_rpcauth}" $_BITCOIN_CONFIG_FILE
+    ## For each auth
+    for auth in ${auths[@]}; do
+
+      ## Convert auth string into an array
+      _a=(${auth//:/ })
+
+      ## Assign username and password from string
+      _username=${_a[0]}
+      _password=${_a[1]}
+
+      ## Generate authentication string
+      _rpcauth=$(/usr/local/bin/rpcauth.py ${_username} ${_password})  
+
+      ## Add auth to config file
+      sed -i "/#rpcauth=<userpw>/a\\${_rpcauth}" $_BITCOIN_CONFIG_FILE
+
+    done
   fi 
 
   if [[ -n "${RPC_BIND}" ]]; then
@@ -672,9 +689,9 @@ template_config(){
     sed -i "/#rpccookiefile=.*/c\rpccookiefile=${RPC_COOKIE_FILE}" $_BITCOIN_CONFIG_FILE
   fi 
 
-  # if [[ -n "${RPCPASSWORD}" ]]; then
-  #   sed -i "/#rpcpassword=.*/c\rpcpassword=${RPCPASSWORD}" $_BITCOIN_CONFIG_FILE
-  # fi 
+  if [[ -n "${RPC_PASSWORD}" ]]; then
+    sed -i "/#rpcpassword=.*/c\rpcpassword=${RPC_PASSWORD}" $_BITCOIN_CONFIG_FILE
+  fi 
 
   if [[ -n "${RPC_PORT}" ]]; then
     sed -i "/#rpcport=.*/c\rpcport=${RPC_PORT}" $_BITCOIN_CONFIG_FILE
@@ -689,9 +706,9 @@ template_config(){
     sed -i "/#rpcthreads=.*/c\rpcthreads=${RPC_THREADS}" $_BITCOIN_CONFIG_FILE
   fi 
 
-  # if [[ -n "${RPCUSER}" ]]; then
-  #   sed -i "/#rpcuser=.*/c\rpcuser=${RPCUSER}" $_BITCOIN_CONFIG_FILE
-  # fi 
+  if [[ -n "${RPC_USER}" ]]; then
+    sed -i "/#rpcuser=.*/c\rpcuser=${RPC_USER}" $_BITCOIN_CONFIG_FILE
+  fi 
 
   if [[ -n "${RPC_WHITE_LIST}" ]]; then
     sed -i "/#rpcwhitelist=.*/c\rpcwhitelist=${RPC_WHITE_LIST}" $_BITCOIN_CONFIG_FILE
@@ -711,6 +728,18 @@ template_config(){
 }
 
 ##############################################################################
+## Remove file locks
+##############################################################################
+remove_file_locks(){
+  rm -f ${DATA_DIR}/.lock
+  rm -f ${DATA_DIR}/blocks/index/LOCK
+  rm -f ${DATA_DIR}/chainstate/LOCK
+  rm -f ${DATA_DIR}/indexes/txindex/LOCK
+  rm -f ${DATA_DIR}/indexes/blockfilter/basic/db/LOCK
+  echo "File locks removed"
+}
+
+##############################################################################
 ## Link bitcoin.conf to user home
 ##############################################################################
 link_config(){
@@ -726,7 +755,6 @@ link_config(){
 ##############################################################################
 init(){
   echo -e "\\n====================================- INITIALISING BITCOIN -===================================="
-
   copy_config
   template_config
 }
@@ -754,6 +782,10 @@ main() {
 
   map_user
   link_config
+  
+  if $REMOVE_FILE_LOCKS; then
+    remove_file_locks
+  fi
 
   ## Log config if set true
   if $LOG_CONFIG; then

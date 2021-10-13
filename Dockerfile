@@ -108,7 +108,7 @@ RUN mkdir -p ${DATA_DIR}/ && chown -R nonroot:nonroot ${DATA_DIR}/ && chmod go=r
 COPY --from=bitcoin-core-builder /bitcoin-core/ /usr/local/
 
 ## Copy file for generating authentication string setting
-COPY --chown=nonroot:nonroot --chmod=go+rX,u+rwX rpcauth.py /usr/local/share
+COPY --chown=nonroot:nonroot --chmod=go+rX,u+rwX rpcauth.py /usr/local/bin
 
 ## Copy entrypoint bash script for templating config
 COPY --chown=nonroot:nonroot --chmod=go+rX,u+rwX entrypoint.sh /usr/local/bin
@@ -124,6 +124,7 @@ ENV PUID= \
     PGID= \
     CONFIG_OVERWRITE="false" \
     LOG_CONFIG="false" \
+    REMOVE_FILE_LOCKS="false" \
     ALERT_NOTIFY= \
     ASSUME_VALID= \
     BLOCK_FILTER_INDEX= \
@@ -244,6 +245,7 @@ ENV PUID= \
     RPC_ALLOW_IP= \
     RPC_BIND= \
     RPC_COOKIE_FILE= \
+    RPC_AUTH= \
     RPC_PASSWORD= \ 
     RPC_PORT= \
     RPC_SERIAL_VERSION= \
