@@ -1,0 +1,509 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://BarneyBuffet.github.io/docker-bitcoin-core/">
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.3">
+    
+    
+      
+        <title>Docker Bitcoin Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.5143246d.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-does-this-image-do" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Docker Bitcoin Core" class="md-header__button md-logo" aria-label="Docker Bitcoin Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docker Bitcoin Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Docker Bitcoin Core" class="md-nav__button md-logo" aria-label="Docker Bitcoin Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Docker Bitcoin Core
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Home
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-does-this-image-do" class="md-nav__link">
+    What does this image do?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-this-image" class="md-nav__link">
+    Using this image
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitcoin-core-configuration" class="md-nav__link">
+    Bitcoin core configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-it-is-working" class="md-nav__link">
+    Checking it is working
+  </a>
+  
+    <nav class="md-nav" aria-label="Checking it is working">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="why/" class="md-nav__link">
+        Why
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="environmental/" class="md-nav__link">
+        Environmental Variables
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tor/" class="md-nav__link">
+        Tor
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-does-this-image-do" class="md-nav__link">
+    What does this image do?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-this-image" class="md-nav__link">
+    Using this image
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bitcoin-core-configuration" class="md-nav__link">
+    Bitcoin core configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-it-is-working" class="md-nav__link">
+    Checking it is working
+  </a>
+  
+    <nav class="md-nav" aria-label="Checking it is working">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Home</h1>
+                
+                <p>A multi-arch docker image for running a bitcoin-core daemon (including wallet).</p>
+<p>Bitcoin Core is a reference client that implements the Bitcoin protocol for remote procedure call (RPC) use.</p>
+<p>Learn more about Bitcoin development at the <a href="https://developer.bitcoin.org/devguide/">bitcoin dev guide</a>.</p>
+<p>Learn more about Bitcoin Core development in the <a href="https://bitcoin.org/en/bitcoin-core/contribute/documentation">docs folder</a> of the Github repository</p>
+<p>Learn more about this docker image at:</p>
+<ul>
+<li>Docker Hub Repository: <a href="https://hub.docker.com/repository/docker/barneybuffet/bitcoin-core">https://hub.docker.com/repository/docker/barneybuffet/bitcoin-core</a></li>
+<li>Documentation: <a href="https://BarneyBuffet.github.io/docker-bitcoin-core">https://BarneyBuffet.github.io/docker-bitcoin-core</a></li>
+<li>Source Code Repository: <a href="https://github.com/BarneyBuffet/docker-bitcoin-core">https://github.com/BarneyBuffet/docker-bitcoin-core</a></li>
+</ul>
+<h2 id="what-does-this-image-do">What does this image do?</h2>
+<p>This runs a Ubuntu server for the bitcoin-core daemon with wallet. The image does not include the gui.</p>
+<p>The <a href="https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/Dockerfile">dockerfile</a> for this image does the following:</p>
+<ol>
+<li>Download pre-compiled binaries from <a href="https://bitcoincore.org/bin/">https://bitcoincore.org/bin/</a></li>
+<li>Verify binary download against developer keys</li>
+<li>Install dependencies</li>
+<li>Add nonroot user to container</li>
+<li>Create data folders</li>
+<li>Copy download binaries into /usr/local</li>
+<li>Copy rpcauth, entrypoint and health check scripts to /usr/local</li>
+<li>Copy blank <code>bitcoin.conf</code> to <code>/bitcoin/bitcoin.conf</code> and template out based on <a href="https://barneybuffet.github.io/docker-bitcoin-core/environmental/">environmental</a> settings</li>
+<li>Start the container</li>
+</ol>
+<h2 id="using-this-image">Using this image</h2>
+<p>Given the current (Sep 2021) size of the blockchain (~450Gb) it is best if this image is run with persistent <a href="https://docs.docker.com/engine/reference/commandline/volume_create/">volumes</a>. For most people this will be docker volume that you bind to you local machine storage.</p>
+<p>To run a detached docker container with no env settings enter the below command.</p>
+<pre><code class="language-bash">docker run -d  --it \
+  --name bitcoin-core \
+  -v /local/path/to/bitcoin:/bitcoin \
+  barneybuffet/bitcoin-core:latest
+</code></pre>
+<p>For more complicated configurations check the <a href="https://github.com/BarneyBuffet/docker-bitcoin-core/blob/main/docker-compose/">docker-compose folder</a>.</p>
+<h2 id="bitcoin-core-configuration">Bitcoin core configuration</h2>
+<p>This image persists the Bitcoin core configuration the <code>/bitcoin/bitcoin.conf</code> file. The <code>/bitcoin</code> folder can be mounted <code>-v /local/path/to/bitcoin:/bitcoin</code> and the file changed with a text editor, after which the changes are persisted with the next reset of the container. Otherwise you can set you configuration options using docker environmental variables on the <strong>first run</strong> of the container or if <code>/bitcoin/bitcoin.conf</code> is deleted or the env variable <code>CONFIG_OVERWRITE=true</code> set.</p>
+<p>For a full list of environmental variables used to template the configuration can be found in<a href="https://barneybuffet.github.io/docker-bitcoin-core/environmental/">environmental documentation page</a></p>
+<h2 id="checking-it-is-working">Checking it is working</h2>
+<p>To check the server is running open a terminal window within your running container and run the following command:</p>
+<pre><code class="language-bash">bitcoin-cli getblockchaininfo
+</code></pre>
+<p>When “bitcoind” is still starting, you may get an error message like “verifying blocks”. That’s normal, just give it a few minutes.</p>
+<p>Among other infos, the “verificationprogress” is shown. Once this value reaches almost 1 (0.999…), the blockchain is up-to-date and fully validated.</p>
+<p>To confirm your connections to the network, check active connections with the below command:</p>
+<pre><code class="language-bash">bitcoin-cli getconnectioncount 
+</code></pre>
+<p>Check your node on <a href="https://bitnodes.earn.com">https://bitnodes.earn.com</a></p>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://bitcoin.org/en/bitcoin-core/">BitcoinCore</a></li>
+<li><a href="https://github.com/bitcoin/bitcoin">Bitcoin Core Source Code</a></li>
+<li><a href="https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md">bitcoin Core Unix Build Notes</a></li>
+<li><a href="https://github.com/ruimarinho/docker-bitcoin-core">ruimarinho/docker-bitcoin-core</a></li>
+<li><a href="https://bitcoin.stackexchange.com/">Bitcoin Stackexchange</a></li>
+<li><a href="https://en.bitcoin.it/wiki/Main_Page">Bitcoin Wiki</a></li>
+<li><a href="https://en.bitcoinwiki.org/wiki/Running_Bitcoind">Running Bitcoind Wiki</a></li>
+<li><a href="https://github.com/bitcoinbook/bitcoinbook">Mastering Bitcoin</a></li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+      
+        
+        <a href="why/" class="md-footer__link md-footer__link--next" aria-label="Next: Why" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Why
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.f89c2efe.min.js"></script>
+      
+    
+  </body>
+</html>

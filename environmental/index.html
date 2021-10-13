@@ -1,0 +1,1044 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://BarneyBuffet.github.io/docker-bitcoin-core/environmental/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.3">
+    
+    
+      
+        <title>Environmental Variables - Docker Bitcoin Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.5143246d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#connection-options" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Docker Bitcoin Core" class="md-header__button md-logo" aria-label="Docker Bitcoin Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docker Bitcoin Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Environmental Variables
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Docker Bitcoin Core" class="md-nav__button md-logo" aria-label="Docker Bitcoin Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Docker Bitcoin Core
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why/" class="md-nav__link">
+        Why
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Environmental Variables
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Environmental Variables
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#connection-options" class="md-nav__link">
+    Connection options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wallet-options" class="md-nav__link">
+    Wallet options:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zeromq-notification-options" class="md-nav__link">
+    ZeroMQ notification options:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debuggingtesting-options" class="md-nav__link">
+    Debugging/Testing options:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chain-selection-options" class="md-nav__link">
+    Chain selection options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node-relay-options" class="md-nav__link">
+    Node relay options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#block-creation-options" class="md-nav__link">
+    Block creation options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rpc-server-options" class="md-nav__link">
+    RPC server options
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tor/" class="md-nav__link">
+        Tor
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#connection-options" class="md-nav__link">
+    Connection options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wallet-options" class="md-nav__link">
+    Wallet options:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zeromq-notification-options" class="md-nav__link">
+    ZeroMQ notification options:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debuggingtesting-options" class="md-nav__link">
+    Debugging/Testing options:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chain-selection-options" class="md-nav__link">
+    Chain selection options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#node-relay-options" class="md-nav__link">
+    Node relay options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#block-creation-options" class="md-nav__link">
+    Block creation options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rpc-server-options" class="md-nav__link">
+    RPC server options
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Environmental Variables</h1>
+                
+                <p>Below is a list of Docker environmental variables that cn be used to template <code>/bitcoin/bitcoin.conf</code>.</p>
+<p>The docker image creates a <code>/bitcoin/bitcoin.conf.lock</code> after templating. If the lock file is found on container start templating will be skipped. Alternatively if the lock file is found but <code>CONFIG_OVERWRITE=true</code> is set, then the <code>bitcoin.conf</code> will be copied over and templated`</p>
+<hr />
+<p>Set user id to match local user for file permissions</p>
+<pre><code class="language-bash">PUID=1000
+</code></pre>
+<hr />
+<p>Set group id to match local user for file permissions</p>
+<pre><code class="language-bash">PGID=1001
+</code></pre>
+<hr />
+<p>Overwrite config based on environmental variables set</p>
+<pre><code class="language-bash">CONFIG_OVERWRITE=false
+</code></pre>
+<hr />
+<p>Log <code>bitcoin.conf</code> on container start</p>
+<pre><code class="language-bash">LOG_CONFIG=false
+</code></pre>
+<hr />
+<p>Remove file locks on startup. File locks ensure two instances of bitcoin-core are not trying to access the same database files, which is good. When you have an ungraceful shutdown file locks stop the container from starting up again.</p>
+<p>REMOVE_FILE_LOCKS=false</p>
+<hr />
+<p>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</p>
+<pre><code class="language-bash">ALERT_NOTIFY=&lt;cmd&gt;
+</code></pre>
+<hr />
+<p>If this block is in the chain assume that it and its ancestors are valid and potentially skip their script verification (0 to verify all,</p>
+<p>default:
+0000000000000000000b9d2ec5a352ecba0592946514a92f14319dc2b367fc72,</p>
+<p>testnet:
+000000000000006433d1efec504c53ca332b64963c425395515b01977bd7b3b0,</p>
+<p>signet:
+0000002a1de0f46379358c1fd09906f7ac59adf3712323ed90eb59e4c183c020)</p>
+<pre><code class="language-bash">ASSUME_VALID=0000000000000000000b9d2ec5a352ecba0592946514a92f14319dc2b367fc72
+</code></pre>
+<hr />
+<p>Maintain an index of compact filters by block (default: false, values: basic). If <type> is not supplied or if <type> = true, indexes for all known types are enabled.</p>
+<pre><code class="language-bash">BLOCK_FILTER_INDEX=false
+</code></pre>
+<hr />
+<p>Execute command when the best block changes (%s in cmd is replaced by block hash)</p>
+<pre><code class="language-bash">BLOCK_NOTIFY=&lt;cmd&gt;
+</code></pre>
+<hr />
+<p>Extra transactions to keep in memory for compact block reconstructions (default: 100)</p>
+<pre><code class="language-bash">BLOCK_RECONSTRUCTION_EXTRA_TXN=100
+</code></pre>
+<hr />
+<p>Specify directory to hold blocks subdirectory for *.dat files (default: <datadir>)</p>
+<pre><code class="language-bash">BLOCKS_DIR=/bitcoin
+</code></pre>
+<hr />
+<p>Whether to reject transactions from network peers. Automatic broadcast and rebroadcast of any transactions from inbound peers is disabled, unless the peer has the 'forcerelay' permission. RPC transactions are not affected. (default: false)</p>
+<pre><code class="language-bash">BLOCKS_ONLY=false
+</code></pre>
+<hr />
+<p>Maintain coinstats index used by the gettxoutsetinfo RPC (default: 0)</p>
+<pre><code class="language-bash">COIN_STATS_INDEX=false
+</code></pre>
+<hr />
+<p>Specify path to read-only configuration file. Relative paths will be prefixed by datadir location. (default: bitcoin.conf)</p>
+<pre><code class="language-bash">CONF=bitcoin.conf
+</code></pre>
+<hr />
+<p>Run in the background as a daemon and accept commands</p>
+<pre><code class="language-bash">DAEMON=true
+</code></pre>
+<hr />
+<p>Wait for initialization to be finished before exiting. This implies -daemon (default: 0)</p>
+<pre><code class="language-bash">DAEMON_WAIT=false
+</code></pre>
+<hr />
+<p>Specify data directory. This is set by the docker image and should not be changed</p>
+<pre><code class="language-bash">DATA_DIR=/bitcoin
+</code></pre>
+<hr />
+<p>Maximum database cache size <n> MiB (4 to 16384, default: 450). In addition, unused mempool memory is shared for this cache (see -maxmempool).</p>
+<pre><code class="language-bash">DB_CACHE=450
+</code></pre>
+<hr />
+<p>Specify location of debug log file. Relative paths will be prefixed by a net-specific datadir location. (-nodebuglogfile to disable; default: debug.log)</p>
+<pre><code class="language-bash">DEBUG_LOG_FILE=debug.log
+</code></pre>
+<hr />
+<p>Specify additional configuration file, relative to the -datadir path (only useable from configuration file, not command line)</p>
+<pre><code class="language-bash">INCLUDE_CONF=&lt;file&gt;
+</code></pre>
+<hr />
+<p>Imports blocks from external file on startup</p>
+<pre><code class="language-bash">LOAD_BLOCK=&lt;file&gt;
+</code></pre>
+<hr />
+<p>Keep the transaction memory pool below <n> megabytes (default: 300)</p>
+<pre><code class="language-bash">MAX_MEM_POOL=300
+</code></pre>
+<hr />
+<p>Keep at most <n> unconnectable transactions in memory (default: 100)</p>
+<pre><code class="language-bash">MAX_ORPHAN_TX=100
+</code></pre>
+<hr />
+<p>Do not keep transactions in the mempool longer than <n> hours (default: 336)</p>
+<pre><code class="language-bash">MEM_POOL_EXPIRY=336
+</code></pre>
+<hr />
+<p>Set the number of script verification threads (-4 to 15, 0 = auto, &lt;0 = leave that many cores free, default: 0)</p>
+<pre><code class="language-bash">PAR=0
+</code></pre>
+<hr />
+<p>Whether to save the mempool on shutdown and load on restart (default: true)</p>
+<pre><code class="language-bash">PERSIST_MEMPOOL=true
+</code></pre>
+<hr />
+<p>Specify pid file. Relative paths will be prefixed by a net-specific datadir location. (default: bitcoind.pid)</p>
+<pre><code class="language-bash">PID=bitcoind.pid
+</code></pre>
+<hr />
+<p>Reduce storage requirements by enabling pruning (deleting) of old blocks. This allows the pruneblockchain RPC to be called to delete specific blocks, and enables automatic pruning of old blocks if a target size in MiB is provided. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, &gt;=550 = automatically prune block files to stay under the specified target size in MiB)</p>
+<pre><code class="language-bash">PRUNE=0
+</code></pre>
+<hr />
+<p>Rebuild chain state and block index from the blk*.dat files on disk</p>
+<pre><code class="language-bash">REINDEX=true
+</code></pre>
+<hr />
+<p>Rebuild chain state from the currently indexed blocks. When in pruning mode or if blocks on disk might be corrupted, use full -reindex instead.</p>
+<pre><code class="language-bash">REINDEX_CHAIN_STATE=true
+</code></pre>
+<hr />
+<p>Specify path to dynamic settings data file. Can be disabled with -nosettings. File is written at runtime and not meant to be edited by users (use bitcoin.conf instead for custom settings). Relative paths will be prefixed by datadir location. (default: settings.json)</p>
+<pre><code class="language-bash">SETTINGS=settings.json
+</code></pre>
+<hr />
+<p>Execute command on startup.</p>
+<pre><code class="language-bash">STARTUP_NOTIFY=&lt;cmd&gt;
+</code></pre>
+<hr />
+<p>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</p>
+<pre><code class="language-bash">SYS_PERMS=1
+</code></pre>
+<hr />
+<p>Maintain a full transaction index, used by the getrawtransaction rpc call (default: false)</p>
+<pre><code class="language-bash">TX_INDEX=false
+</code></pre>
+<hr />
+<h2 id="connection-options">Connection options</h2>
+<p>Add a node to connect to and attempt to keep the connection open (see the <code>addnode</code> RPC command help for more info). This option can be specified multiple times to add multiple nodes.</p>
+<pre><code class="language-bash">ADD_NODE=&lt;address:port&gt;
+</code></pre>
+<hr />
+<p>Specify asn mapping used for bucketing of the peers (default: ip_asn.map). Relative paths will be prefixed by the net-specific datadir location.</p>
+<pre><code class="language-bash">ASMAP=ip_asn.map
+</code></pre>
+<hr />
+<p>Default duration (in seconds) of manually configured bans (default: 86400)</p>
+<pre><code class="language-bash">BAN_TIME=86400
+</code></pre>
+<hr />
+<p>Bind to given address and always listen on it (default: 0.0.0.0). Use [host]:port notation for IPv6. Append =onion to tag any incoming connections to that address and port as incoming Tor connections (default: 127.0.0.1:8334=onion, testnet: 127.0.0.1:18334=onion, signet: 127.0.0.1:38334=onion, regtest: 127.0.0.1:18445=onion)</p>
+<pre><code class="language-bash">BIND=0.0.0.0,10.0.0.1
+</code></pre>
+<hr />
+<p>Connect only to the specified node; -noconnect disables automatic connections (the rules for this peer are the same as for -addnode). This option can be specified multiple times to connect to multiple nodes.</p>
+<pre><code class="language-bash">CONNECT=&lt;ip&gt;,&lt;ip&gt;
+</code></pre>
+<hr />
+<p>Discover own IP addresses (default: true when listening and no -externalip or -proxy)</p>
+<pre><code class="language-bash">DISCOVER=true
+</code></pre>
+<hr />
+<p>Allow DNS lookups for -addnode, -seednode and -connect (default: true)</p>
+<pre><code class="language-bash">DNS=true
+</code></pre>
+<hr />
+<p>Query for peer addresses via DNS lookup, if low on addresses (default: true unless -connect used)</p>
+<pre><code class="language-bash">DNS_SEED=true
+</code></pre>
+<hr />
+<p>Specify your own public address</p>
+<pre><code class="language-bash">EXTERNAL_IP=&lt;ip&gt;
+</code></pre>
+<hr />
+<p>Allow fixed seeds if DNS seeds don't provide peers (default: 1)</p>
+<pre><code class="language-bash">FIXED_SEEDS=true
+</code></pre>
+<hr />
+<p>Always query for peer addresses via DNS lookup (default: false)</p>
+<pre><code class="language-bash">FORCE_DNS_SEED=false
+</code></pre>
+<hr />
+<p>If set and -i2psam is also set then incoming I2P connections are accepted via the SAM proxy. If this is not set but -i2psam is set then only outgoing connections will be made to the I2P network. Ignored if -i2psam is not set. Listening for incoming I2P connections is done through the SAM proxy, not by binding to a local address and port (default: 1)</p>
+<pre><code class="language-bash">I2P_ACCEPT_INCOMING=true
+</code></pre>
+<hr />
+<p>I2P SAM proxy to reach I2P peers and accept I2P connections (default: none)</p>
+<pre><code class="language-bash">i2psam=&lt;ip:port&gt;,&lt;ip:port&gt;,&lt;ip:port&gt;
+</code></pre>
+<hr />
+<p>Accept connections from outside (default: false if no -proxy or -connect)</p>
+<pre><code class="language-bash">LISTEN=false
+</code></pre>
+<hr />
+<p>Automatically create Tor onion service (default: true)</p>
+<pre><code class="language-bash">LISTEN_ONION=true
+</code></pre>
+<hr />
+<p>Maintain at most <n> connections to peers (default: 125)</p>
+<pre><code class="language-bash">MAX_CONNECTIONS=125
+</code></pre>
+<hr />
+<p>Maximum per-connection receive buffer, <n>*1000 bytes (default: 5000)</p>
+<pre><code class="language-bash">MAX_RECEIVE_BUFFER=5000
+</code></pre>
+<hr />
+<p>Maximum per-connection send buffer, <n>*1000 bytes (default: 1000)</p>
+<pre><code class="language-bash">MAX_SEND_BUFFER=1000
+</code></pre>
+<hr />
+<p>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: 4200 seconds)</p>
+<pre><code class="language-bash">MAX_TIME_ADJUSTMENT=4200
+</code></pre>
+<hr />
+<p>Tries to keep outbound traffic under the given target (in MiB per 24h). Limit does not apply to peers with 'download' permission. 0 = no limit (default: 0)</p>
+<pre><code class="language-bash">MAX_UPLOAD_TARGET=0
+</code></pre>
+<hr />
+<p>Enable all P2P network activity (default: true). Can be changed by the setnetworkactive RPC command</p>
+<pre><code class="language-bash">NETWORK_ACTIVE=true
+</code></pre>
+<hr />
+<p>Use separate SOCKS5 proxy to reach peers via Tor onion services, set -noonion to disable (default: -proxy)</p>
+<pre><code class="language-bash">ONION=&lt;ip:port&gt;
+</code></pre>
+<hr />
+<p>Make outgoing connections only through network <net> (ipv4, ipv6 or onion). Incoming connections are not affected by this option. This option can be specified multiple times to allow multiple networks.</p>
+<pre><code class="language-bash">ONLY_NET=&lt;net&gt;
+</code></pre>
+<hr />
+<p>Serve compact block filters to peers per BIP 157 (default: false)</p>
+<pre><code class="language-bash">PEER_BLOCK_FILTERS=false
+</code></pre>
+<hr />
+<p>Support filtering of blocks and transaction with bloom filters (default: false)</p>
+<pre><code class="language-bash">PEER_BLOOM_FILTERS=false
+</code></pre>
+<hr />
+<p>Relay non-P2SH multisig (default: true)</p>
+<pre><code class="language-bash">PERMIT_BARE_MULTISIG=true
+</code></pre>
+<hr />
+<p>Listen for connections on <port>. Nodes not using the default ports (default: 8333, testnet: 18333, signet: 38333, regtest: 18444) are unlikely to get incoming connections.</p>
+<pre><code class="language-bash">PORT=8333
+</code></pre>
+<hr />
+<p>Connect through SOCKS5 proxy, set -noproxy to disable (default: disabled)</p>
+<pre><code class="language-bash">PROXY=&lt;ip:port&gt;
+</code></pre>
+<hr />
+<p>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: true)</p>
+<pre><code class="language-bash">PROXY_RANDOMIZE=true
+</code></pre>
+<hr />
+<p>Connect to a node to retrieve peer addresses, and disconnect. This option can be specified multiple times to connect to multiple nodes.</p>
+<pre><code class="language-bash">SEED_NODE=&lt;ip&gt;
+</code></pre>
+<hr />
+<p>Specify connection timeout in milliseconds (minimum: 1, default: 5000)</p>
+<pre><code class="language-bash">TIMEOUT=5000
+</code></pre>
+<hr />
+<p>Tor control port to use if onion listening enabled (default: 127.0.0.1:9051)</p>
+<pre><code class="language-bash">TOR_CONTROL=127.0.0.1:9051
+</code></pre>
+<hr />
+<p>Tor control port password (default: empty)</p>
+<pre><code class="language-bash">TOR_PASSWORD=password
+</code></pre>
+<hr />
+<p>Use UPnP to map the listening port (default: false)</p>
+<pre><code class="language-bash">UPNP=false
+</code></pre>
+<hr />
+<p>Bind to the given address and add permission flags to the peers connecting to it. Use [host]:port notation for IPv6. Allowed permissions: bloomfilter (allow requesting BIP37 filtered blocks and transactions), noban (do not ban for misbehavior; implies download), forcerelay (relay transactions that are already in the mempool; implies relay), relay (relay even in -blocksonly mode, and unlimited transaction announcements), mempool (allow requesting BIP35 mempool contents), download (allow getheaders during IBD, no disconnect after maxuploadtarget limit), addr (responses to GETADDR avoid hitting the cache and contain random records with the most up-to-date info). Specify multiple permissions separated by commas (default: download,noban,mempool,relay). Can be specified multiple times.</p>
+<pre><code class="language-bash">WHITE_BIND=&lt;[permissions@]addr&gt;
+</code></pre>
+<hr />
+<p>Add permission flags to the peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR-notated network (e.g. 1.2.3.0/24). Uses the same permissions as -whitebind. Can be specified multiple times.</p>
+<pre><code class="language-bash">WHITE_LIST=&lt;[permissions@]IP address or network&gt;
+</code></pre>
+<hr />
+<h2 id="wallet-options">Wallet options:</h2>
+<p>What type of addresses to use ("legacy", "p2sh-segwit", or "bech32", default: "bech32")</p>
+<pre><code class="language-bash">ADDRESS_TYPE=bech32
+</code></pre>
+<p>Group outputs by address, selecting many (possibly all) or none, instead of selecting on a per-output basis. Privacy is improved as addresses are mostly swept with fewer transactions and outputs are aggregated in clean change addresses. It may result in higher fees due to less optimal coin selection caused by this added limitation and possibly a larger-than-necessary number of inputs being used. Always enabled for wallets with "avoid_reuse" enabled, otherwise default: 0.</p>
+<pre><code class="language-bash">avoid_partial_spends=false
+</code></pre>
+<hr />
+<p>What type of change to use ("legacy", "p2sh-segwit", or "bech32"). Default is same as -addresstype, except when -addresstype=p2sh-segwit a native segwit output is used when sending to a native segwit address)</p>
+<pre><code class="language-bash">CHANGE_TYPE=&lt;addresstype&gt;
+</code></pre>
+<hr />
+<p>Do not load the wallet and disable wallet RPC calls</p>
+<pre><code class="language-bash">DISABLE_WALLET=0
+</code></pre>
+<p>The fee rate (in BTC/kvB) that indicates your tolerance for discarding change by adding it to the fee (default: 0.0001). Note: An output is discarded if it is dust at this rate, but we will always discard up to the dust relay fee and a discard fee above that is limited by the fee estimate for the longest target.</p>
+<pre><code class="language-bash">DISCARD_FEE=&lt;amt&gt;
+</code></pre>
+<p>A fee rate (in BTC/kvB) that will be used when fee estimation has insufficient data. 0 to entirely disable the fallbackfee feature. (default: 0.00)</p>
+<pre><code class="language-bash">FALLBACK_FEE=&lt;amt&gt;
+</code></pre>
+<p>Set key pool size to <n> (default: 1000). Warning: Smaller sizes may increase the risk of losing funds when restoring from an old backup, if none of the addresses in the original keypool have been used.</p>
+<pre><code class="language-bash">KEY_POOL=&lt;n&gt;
+</code></pre>
+<p>Spend up to this amount in additional (absolute) fees (in BTC) if it allows the use of partial spend avoidance (default: 0.00)</p>
+<pre><code class="language-bash">MAX_APS_FEE=&lt;n&gt;
+</code></pre>
+<hr />
+<p>Fee rates (in BTC/kvB) smaller than this are considered zero fee for transaction creation (default: 0.00001)</p>
+<pre><code class="language-bash">MIN_TX_FEE=&lt;amt&gt;
+</code></pre>
+<hr />
+<p>Maximum total fees (in BTC) to use in a single wallet transaction; setting this too low may abort large transactions (default: 0.10)</p>
+<pre><code class="language-bash">MAX_TX_FEE=&lt;amt&gt;
+</code></pre>
+<hr />
+<p>Fee rate (in BTC/kvB) to add to transactions you send (default: 0.00)</p>
+<pre><code class="language-bash">PAY_TX_FEE=&lt;amt&gt;
+</code></pre>
+<hr />
+<p>Rescan the block chain for missing wallet transactions on startup</p>
+<pre><code class="language-bash">RESCAN=false
+</code></pre>
+<hr />
+<p>External signing tool, see doc/external-signer.md</p>
+<pre><code class="language-bash">SIGNER=&lt;cmd&gt;
+</code></pre>
+<hr />
+<p>Spend unconfirmed change when sending transactions (default: 1)</p>
+<pre><code class="language-bash">SPEND_ZERO_CONF_CHANGE=true
+</code></pre>
+<hr />
+<p>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: 6)</p>
+<pre><code class="language-bash">TX_CONFIRM_TARGET=&lt;n&gt;
+</code></pre>
+<hr />
+<p>Specify wallet path to load at startup. Can be used multiple times to load multiple wallets. Path is to a directory containing wallet data and log files. If the path is not absolute, it is interpreted relative to <walletdir>. This only loads existing wallets and does not create new ones. For backwards compatibility this also accepts names of existing top-level data files in <walletdir>.</p>
+<pre><code class="language-bash">WALLET=&lt;path&gt;
+</code></pre>
+<hr />
+<p>Make the wallet broadcast transactions (default: 1)</p>
+<pre><code class="language-bash">WALLET_BROADCAST=true
+</code></pre>
+<hr />
+<p>Specify directory to hold wallets (default: <datadir>/wallets if it exists, otherwise <datadir>)</p>
+<pre><code class="language-bash">WALLET_DIR=&lt;dir&gt;
+</code></pre>
+<p>Execute command when a wallet transaction changes. %s in cmd is replaced by TxID, %w is replaced by wallet name, %b is replaced by the hash of the block including the transaction (set to 'unconfirmed' if the transaction is not included) and %h is replaced by the block height (-1 if not included). %w is not currently implemented on windows. On systems where %w is supported, it should NOT be quoted because this would break shell escaping used to invoke the command.</p>
+<pre><code class="language-bash">WALLET_NOTIFY=&lt;cmd&gt;
+</code></pre>
+<hr />
+<p>Send transactions with full-RBF opt-in enabled (RPC only, default: 0)</p>
+<pre><code class="language-bash">WALLET_RBF=false
+</code></pre>
+<hr />
+<h2 id="zeromq-notification-options">ZeroMQ notification options:</h2>
+<p>Enable publish hash block in <address></p>
+<pre><code class="language-bash">ZMQ_PUB_HASH_BLOCK=&lt;address&gt;
+</code></pre>
+<hr />
+<p>Set publish hash block outbound message high water mark (default: 1000)</p>
+<pre><code class="language-bash">ZMQ_PUB_HASH_BLOCK_HWM=&lt;n&gt;
+</code></pre>
+<hr />
+<p>Enable publish hash transaction in <address></p>
+<pre><code class="language-bash">ZMQ_PUB_HASH_TX=&lt;address&gt;
+</code></pre>
+<hr />
+<p>Set publish hash transaction outbound message high water mark (default: 1000)</p>
+<pre><code class="language-bash">ZMQ_PUB_HASH_TX_HWM=&lt;n&gt;
+</code></pre>
+<hr />
+<p>Enable publish raw block in <address></p>
+<pre><code class="language-bash">ZMQ_PUB_RAW_BLOCK=&lt;address&gt;
+</code></pre>
+<hr />
+<p>Set publish raw block outbound message high water mark (default: 1000)</p>
+<pre><code class="language-bash">ZMQ_PUB_RAW_BLOCK_HWM=&lt;n&gt;
+</code></pre>
+<hr />
+<p>Enable publish raw transaction in <address></p>
+<pre><code class="language-bash">ZMQ_PUB_RAW_TX=&lt;address&gt;
+</code></pre>
+<hr />
+<p>Set publish raw transaction outbound message high water mark (default: 1000)</p>
+<pre><code class="language-bash">ZMQ_PUB_RAW_TX_HWM=&lt;n&gt;
+</code></pre>
+<hr />
+<p>Enable publish hash block and tx sequence in <address></p>
+<pre><code class="language-bash">ZMQ_PUB_SEQUENCE=&lt;address&gt;
+</code></pre>
+<p>Set publish hash sequence message high water mark (default: 1000)</p>
+<pre><code class="language-bash">ZMQ_PUB_SEQUENCE_HWM=&lt;n&gt;
+</code></pre>
+<hr />
+<h2 id="debuggingtesting-options">Debugging/Testing options:</h2>
+<p>Output debugging information (default: -nodebug, supplying <category> is optional). If <category> is not supplied or if <category> = 1, output all debugging information. <category> can be: net, tor, mempool, http, bench, zmq, walletdb, rpc, estimatefee, addrman, selectcoins, reindex, cmpctblock, rand, prune, proxy, mempoolrej, libevent, coindb, qt, leveldb, validation.</p>
+<pre><code class="language-bash">DEBUG=&lt;category&gt;,&lt;category&gt;,&lt;category&gt;
+</code></pre>
+<hr />
+<p>Exclude debugging information for a category. Can be used in conjunction with -debug=1 to output debug logs for all categories except one or more specified categories.</p>
+<pre><code class="language-bash">DEBUG_EXCLUDE=&lt;category&gt;,&lt;category&gt;,&lt;category&gt;
+</code></pre>
+<hr />
+<p>Include IP addresses in debug output (default: false)</p>
+<pre><code class="language-bash">LOG_IPS=false
+</code></pre>
+<hr />
+<p>Prepend debug output with name of the originating source location (source file, line number and function name) (default: 0)</p>
+<pre><code class="language-bash">LOG_SOURCE_LOCATIONS=false
+</code></pre>
+<hr />
+<p>Prepend debug output with timestamp (default: true)</p>
+<pre><code class="language-bash">LOG_TIMESTAMPS=true
+</code></pre>
+<hr />
+<p>Send trace/debug info to console (default: true when no -daemon. To disable logging to file, set -nodebuglogfile)</p>
+<pre><code class="language-bash">PRINT_TO_CONSOLE=true
+</code></pre>
+<hr />
+<p>Shrink debug.log file on client startup (default: true when no -debug)</p>
+<pre><code class="language-bash">SHRINK_DEBUG_FILE=true
+</code></pre>
+<hr />
+<p>Append comment to the user agent string</p>
+<pre><code class="language-bash">UA_COMMENT=&lt;cmt&gt;
+</code></pre>
+<hr />
+<h2 id="chain-selection-options">Chain selection options</h2>
+<p>Use the chain <chain> (default: main). Allowed values: main, test, signet, regtest</p>
+<pre><code class="language-bash">CHAIN=main
+</code></pre>
+<hr />
+<p>Use the signet chain. Equivalent to -chain=signet. Note that the network is defined by the -signetchallenge parameter</p>
+<pre><code class="language-bash">SIGNET=true
+</code></pre>
+<hr />
+<p>Blocks must satisfy the given script to be considered valid (only for signet networks; defaults to the global default signet test network challenge)</p>
+<pre><code class="language-bash">SIGNET_CHALLENGE=false
+</code></pre>
+<hr />
+<p>Specify a seed node for the signet network, in the hostname[:port] format, e.g. sig.net:1234 (may be used multiple times to specify multiple seed nodes; defaults to the global default signet test network seed node(s))</p>
+<pre><code class="language-bash">SIGNET_SEED_NODE=&lt;host[:port]&gt;,&lt;host[:port]&gt;,&lt;host[:port]&gt;
+</code></pre>
+<hr />
+<p>Use the test chain. Equivalent to -chain=test.</p>
+<pre><code class="language-bash">TEST_NET=true
+</code></pre>
+<hr />
+<h2 id="node-relay-options">Node relay options</h2>
+<p>Equivalent bytes per sigop in transactions for relay and mining (default: 20)</p>
+<pre><code class="language-bash">BYTE_PER_SIGOP=20
+</code></pre>
+<hr />
+<p>Relay and mine data carrier transactions (default: true)</p>
+<pre><code class="language-bash">DATA_CARRIER=true
+</code></pre>
+<hr />
+<p>Maximum size of data in data carrier transactions we relay and mine (default: 83)</p>
+<pre><code class="language-bash">DATA_CARRIER_SIZE=83
+</code></pre>
+<hr />
+<p>Fees (in BTC/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: 0.00001)</p>
+<pre><code class="language-bash">MIN_RELAY_TX_FEE=0.00001
+</code></pre>
+<hr />
+<p>Add 'forcerelay' permission to whitelisted inbound peers with default permissions. This will relay transactions even if the transactions were already in the mempool. (default: false)</p>
+<pre><code class="language-bash">WHITE_LIST_FORCE_RELAY=false
+</code></pre>
+<hr />
+<p>Add 'relay' permission to whitelisted inbound peers with default permissions. This will accept relayed transactions even when not relaying transactions (default: true)</p>
+<pre><code class="language-bash">WHITE_LIST_RELAY=true
+</code></pre>
+<hr />
+<h2 id="block-creation-options">Block creation options</h2>
+<p>Set maximum BIP141 block weight (default: 3996000)</p>
+<pre><code class="language-bash">BLOCK_MAX_WEIGHT=3996000
+</code></pre>
+<hr />
+<p>Set lowest fee rate (in BTC/kB) for transactions to be included in block creation. (default: 0.00001)</p>
+<pre><code class="language-bash">BLOCK_MIN_TX_FEE=0.00001
+</code></pre>
+<hr />
+<h2 id="rpc-server-options">RPC server options</h2>
+<p>Accept public REST requests (default: false)</p>
+<pre><code class="language-bash">REST=false
+</code></pre>
+<hr />
+<p>Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times.</p>
+<pre><code class="language-bash">RPC_ALLOW_IP=127.0.0.1
+</code></pre>
+<hr />
+<p>Username and HMAC-SHA-256 hashed password for JSON-RPC connections. The field <userpw> comes in the format: <USERNAME>:<SALT>$<HASH>. A canonical python script is included in /usr/local/share/rpcauth.py. The client then connects normally using the rpcuser=<USERNAME>/rpcpassword=<PASSWORD> pair of arguments. This option can be specified multiple times</p>
+<p>Multiple username:password pairs can be set. </p>
+<p>The entrypoint script parses each pair by a space and password username is parsed by a <code>:</code></p>
+<pre><code class="language-bash">RPC_AUTH=&lt;username:password&gt; &lt;username:password&gt;
+</code></pre>
+<hr />
+<p>Bind to given address to listen for JSON-RPC connections. Do not expose the RPC server to untrusted networks such as the public internet! This option is ignored unless -rpcallowip is also passed. Port is optional and overrides -rpcport. Use [host]:port notation for IPv6. This option can be specified multiple times (default: 127.0.0.1 and ::1 i.e., localhost)</p>
+<pre><code class="language-bash">RPC_BIND=127.0.0.1:8332
+</code></pre>
+<hr />
+<p>Location of the auth cookie. Relative paths will be prefixed by a net-specific datadir location. (default: data dir)</p>
+<pre><code class="language-bash">RPC_COOKIE_FILE=&lt;loc&gt;
+</code></pre>
+<hr />
+<p>Password for JSON-RPC connections. RPC_AUTH is the preferred method of setting username and password.</p>
+<pre><code class="language-bash">RPC_PASSWORD=&lt;password&gt;
+</code></pre>
+<hr />
+<p>Listen for JSON-RPC connections on <port> (default: 8332, testnet: 18332, signet: 38332, regtest: 18443)</p>
+<pre><code class="language-bash">RPC_PORT=8332
+</code></pre>
+<hr />
+<p>Sets the serialization of raw transaction or block hex returned in non-verbose mode, non-segwit(false) or segwit(true) (default: true)</p>
+<pre><code class="language-bash">RPC_SERIAL_VERSION=true
+</code></pre>
+<hr />
+<p>Set the number of threads to service RPC calls (default: 4)</p>
+<pre><code class="language-bash">RPC_THREADS=4
+</code></pre>
+<hr />
+<p>Username for JSON-RPC connections. RPC_AUTH is the preferred method of setting username and password.</p>
+<pre><code class="language-bash">RPC_USER=&lt;username&gt;
+</code></pre>
+<hr />
+<p>Set a whitelist to filter incoming RPC calls for a specific user. The field <whitelist> comes in the format: <USERNAME>:<rpc 1>,<rpc 2>,...,<rpc n>. If multiple whitelists are set for a given user, they are set-intersected. See -rpcwhitelistdefault documentation for information on default whitelist behavior.</p>
+<pre><code class="language-bash">RPC_WHITELIST=&lt;whitelist&gt;
+</code></pre>
+<hr />
+<p>Sets default behavior for rpc whitelisting. Unless <code>RPC_WHITE_LIST_DEFAULT</code> is set to false, if any <code>RPC_WHITELIST</code> is set, the rpc server acts as if all rpc users are subject to empty-unless-otherwise-specified whitelists. If <code>RPC_WHITE_LIST_DEFAULT</code> is set to true and no <code>RPC_WHITELIST</code> is set, rpc server acts as if all rpc users are subject to empty whitelists.</p>
+<pre><code class="language-bash">RPC_WHITE_LIST_DEFAULT=true
+</code></pre>
+<hr />
+<p>Accept command line and JSON-RPC commands</p>
+<pre><code class="language-bash">SERVER=true
+</code></pre>
+<hr />
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../why/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Why" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Why
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../tor/" class="md-footer__link md-footer__link--next" aria-label="Next: Tor" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Tor
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f89c2efe.min.js"></script>
+      
+    
+  </body>
+</html>
